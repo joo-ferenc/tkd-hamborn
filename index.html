@@ -213,7 +213,7 @@ details.ablauf[open] summary::before { content: "▾ "; }
 
 /* ---------- Computer & Tablet: volle Breite, aufgeteilt ---------- */
 .technik, .t-karten, .t-info { display: flex; flex-direction: column; gap: 10px; }
-@media (min-width: 900px) {
+@media (min-width: 700px) and (orientation: landscape) {
   #app { max-width: 1240px; }
   .kopf, .start-kopf { padding-left: max(32px, env(safe-area-inset-left, 0px)); padding-right: max(32px, env(safe-area-inset-right, 0px)); }
   .inhalt, .unten, .k-tipp, .k-steuer, .tafel { padding-left: max(32px, env(safe-area-inset-left, 0px)); padding-right: max(32px, env(safe-area-inset-right, 0px)); }
@@ -229,7 +229,7 @@ details.ablauf[open] summary::before { content: "▾ "; }
   .spruch { font-size: 40px; }
   .chips span { font-size: 13px; padding: 7px 12px; }
 
-  .start-raster { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); align-items: stretch; }
+  .start-raster { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); align-items: stretch; align-content: start; flex: none; }
   .start-raster .kacheln { display: contents; }
   .start-raster .karte.ziel, .start-raster .kampf-kachel { grid-column: span 2; padding: 20px 24px; }
   .start-raster .kachel { min-height: 150px; padding: 22px; }
@@ -262,7 +262,21 @@ details.ablauf[open] summary::before { content: "▾ "; }
   .k-steuer { max-width: 980px; width: 100%; margin-inline: auto; }
   .k-gitter { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 }
-@media (min-width: 900px) and (max-height: 760px) { .lernkarte { min-height: 300px; } }
+@media (min-width: 700px) and (orientation: landscape) and (max-height: 760px) { .lernkarte { min-height: 300px; } }
+/* Handy quer: wenig Höhe – Kopf kompakt halten */
+@media (min-width: 700px) and (orientation: landscape) and (max-height: 600px) {
+  .start-kopf { padding-block: 12px 14px; gap: 8px; }
+  .logos img { width: 64px; height: 64px; }
+  .vname { font-size: 22px; }
+  .spruch { font-size: 24px; }
+  .chips span { font-size: 11px; padding: 4px 8px; }
+  .start-raster .kachel { min-height: 104px; padding: 16px; }
+  .start-raster .karte.ziel, .start-raster .kampf-kachel { padding: 14px 18px; }
+  .kopf { padding-block: 10px; }
+  .inhalt { padding-block: 14px 20px; }
+  .lernkarte { min-height: 220px; }
+  .kmd-ton { width: 96px; height: 96px; }
+}
 @media (min-width: 520px) { #app { box-shadow: 0 0 40px rgba(0,0,0,.5); } }
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
 </style>
@@ -482,7 +496,7 @@ SEITEN.gurt = (a) => {
     <main class="inhalt raster">${inhalt}</main>
     ${g.stufe > 0 ? `<div class="unten"><button class="haupt-btn" id="quiz">Quiz · ${esc(g.name)}</button></div>` : ""}</div>`, r => {
     klick(r, "[data-tab]", el => { a.tab = +el.dataset.tab; malen(); });
-    try { if (matchMedia("(min-width: 900px)").matches) r.querySelectorAll("details.ablauf").forEach(d => d.open = true); } catch (e) { }
+    try { if (matchMedia("(min-width: 700px) and (orientation: landscape)").matches) r.querySelectorAll("details.ablauf").forEach(d => d.open = true); } catch (e) { }
     const zs = r.querySelector("#zielSchalter");
     if (zs) zs.onclick = () => { const an = (zielGurt() || {}).stufe === g.stufe; schreiben("ziel", an ? -1 : g.stufe); malen(); };
     klick(r, "[data-technik]", el => zeige("technik", el.dataset.technik));
