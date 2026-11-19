@@ -1,0 +1,1000 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#141416">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="TKD Hamborn">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" type="image/png" href="img/icon-192.png">
+<link rel="apple-touch-icon" href="img/icon-180.png">
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)} body{margin:0} img{max-width:100%} [hidden]{display:none!important}</style>
+<title>TKD Hamborn</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;700&family=Barlow:wght@400;600;700&family=Noto+Sans+KR:wght@500;700&display=swap">
+<style>
+/* Vereinsstil TKD Duisburg-Hamborn: dunkler Kopf, rote Akzente, helle Inhaltsfläche – bewusst eine feste Optik */
+:root {
+  --dunkel: #141416; --dunkel2: #2E2E33; --rot: #D7192A; --rot-hell: #FBE6E8;
+  --grund: #F2F2F3; --karte: #FFFFFF; --ink: #141416; --ink2: #3D3D42; --grau: #5C5C62;
+  --hellgrau: #C9C9CE; --rand: #5A5A60; --blau: #0047A0; --chung: #1F5FD1;
+  --gruen: #2E7D32; --falsch: #C62828; --hinweis: #E8E8EC; --gold: #FFD54A;
+  --titel: "Oswald", "Arial Narrow", "Roboto Condensed", sans-serif;
+  --text: "Barlow", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --kr: "Noto Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+  color-scheme: light;
+}
+html, body { height: 100%; }
+body { background: #0B0B0C; color: var(--ink); font-family: var(--text); font-size: 15px; }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--dunkel); }
+* { box-sizing: border-box; }
+button { font: inherit; color: inherit; border: 0; background: none; cursor: pointer; padding: 0; }
+button:focus-visible, a:focus-visible, [tabindex]:focus-visible { outline: 3px solid var(--gold); outline-offset: 2px; }
+a { color: inherit; }
+
+#app { max-width: 480px; margin: 0 auto; min-height: 100%; background: var(--grund); display: flex; flex-direction: column; position: relative; }
+.seite { display: flex; flex-direction: column; min-height: 100%; flex: 1; }
+.voll { height: 100%; min-height: 0; }
+
+/* Kopf */
+.kopf { background: var(--dunkel); color: #fff; padding-block: 16px; padding-left: max(20px, env(safe-area-inset-left, 0px)); padding-right: max(20px, env(safe-area-inset-right, 0px)); position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; }
+.kopf .zeile { display: flex; align-items: center; gap: 12px; }
+.rund-btn { width: 44px; height: 44px; flex: none; border: 2px solid var(--rand); border-radius: 50%; display: grid; place-items: center; color: #fff; font-weight: 700; font-size: 18px; }
+.rund-btn:hover { border-color: #8A8A90; }
+.h-titel { font-family: var(--titel); font-weight: 700; text-transform: uppercase; letter-spacing: .04em; font-size: 20px; line-height: 1.1; flex: 1; min-width: 0; text-wrap: balance; }
+.strich { width: 64px; height: 4px; background: var(--rot); margin-top: 12px; }
+.unter { color: var(--hellgrau); font-size: 14px; margin-top: 10px; }
+
+.inhalt { padding-block: 14px 20px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); display: flex; flex-direction: column; gap: 10px; flex: 1; }
+.unten { padding-block: 10px 16px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); position: sticky; bottom: 0; background: linear-gradient(to top, var(--grund) 75%, transparent); padding-bottom: max(16px, env(safe-area-inset-bottom, 0px)); }
+
+.karte { background: var(--karte); border-radius: 12px; padding: 14px 16px; box-shadow: 0 1px 2px rgba(20,20,22,.10); display: flex; flex-direction: column; gap: 4px; }
+.karte.grau { background: var(--hinweis); box-shadow: none; }
+.karte.rosa { background: var(--rot-hell); box-shadow: none; }
+.label { font-size: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--grau); }
+.label.rot { color: var(--rot); }
+.t-gross { font-family: var(--titel); font-weight: 700; font-size: 20px; line-height: 1.2; }
+.t-text { font-size: 16px; line-height: 1.45; white-space: pre-line; }
+.klein { font-size: 13px; color: var(--grau); line-height: 1.4; }
+.mini { font-size: 12px; color: var(--grau); line-height: 1.45; }
+.aus { color: var(--blau); font-weight: 700; }
+.hangul { font-family: var(--kr); color: var(--grau); font-weight: 500; }
+
+.haupt-btn { width: 100%; min-height: 56px; border-radius: 12px; background: var(--rot); color: #fff; font-family: var(--titel); font-weight: 700; font-size: 18px; letter-spacing: .06em; text-transform: uppercase; }
+.haupt-btn.dunkel { background: var(--dunkel); }
+.haupt-btn:active { filter: brightness(.92); }
+.text-link { color: var(--rot); font-weight: 700; font-size: 15px; padding: 12px 0; text-align: left; }
+
+.laut { width: 44px; height: 44px; flex: none; border-radius: 50%; background: var(--dunkel); display: grid; place-items: center; }
+.laut svg { width: 22px; height: 22px; }
+.laut.gross { width: 60px; height: 60px; }
+.laut.gross svg { width: 28px; height: 28px; }
+.laut.rot { background: var(--rot); }
+
+.eintrag { display: flex; align-items: center; gap: 10px; background: var(--karte); border-radius: 12px; padding: 10px 12px 10px 14px; box-shadow: 0 1px 2px rgba(20,20,22,.10); text-align: left; width: 100%; }
+.eintrag .txt { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 1px; }
+.eintrag .ko { font-family: var(--titel); font-weight: 700; font-size: 18px; }
+.eintrag .ko .hangul { font-family: var(--kr); font-size: 14px; margin-left: 8px; }
+.eintrag .de { font-size: 14px; color: var(--ink2); }
+.pfeil { font-size: 24px; font-weight: 700; color: var(--grau); }
+
+.gurt { display: inline-flex; align-items: center; flex: none; border-radius: 3px; box-shadow: inset 0 0 0 1px rgba(0,0,0,.25); }
+.gurt i { display: block; width: 100%; }
+.auf-dunkel .gurt { box-shadow: inset 0 0 0 1px rgba(255,255,255,.5); }
+
+/* Startseite */
+.start-kopf { background: var(--dunkel); color: #fff; padding-block: 18px 20px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); display: flex; flex-direction: column; align-items: center; gap: 12px; }
+.logos { display: flex; align-items: center; gap: 10px; width: 100%; }
+.logos img { width: 72px; height: 72px; flex: none; }
+.logos .name { flex: 1; text-align: center; min-width: 0; }
+.vname { font-family: var(--titel); font-weight: 700; font-size: 19px; text-transform: uppercase; letter-spacing: .04em; line-height: 1.15; }
+.spruch { font-family: var(--titel); font-weight: 700; font-size: 24px; text-transform: uppercase; letter-spacing: .05em; text-align: center; text-wrap: balance; }
+.chips { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; }
+.chips span { font-size: 11px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; padding: 5px 8px; border: 1px solid #4A4A50; border-radius: 4px; }
+.karte.ziel { flex-direction: row; align-items: center; gap: 14px; text-align: left; width: 100%; }
+.ziel .farbe { width: 6px; align-self: stretch; border-radius: 3px; min-height: 52px; }
+.kacheln { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.kachel { border-radius: 12px; padding: 16px; min-height: 104px; display: flex; flex-direction: column; gap: 4px; text-align: left; background: var(--karte); box-shadow: 0 1px 2px rgba(20,20,22,.10); }
+.kachel .marke { width: 26px; height: 4px; background: var(--rot); margin-bottom: 10px; }
+.kachel .k-titel { font-family: var(--titel); font-weight: 700; font-size: 18px; text-transform: uppercase; letter-spacing: .04em; }
+.kachel .k-unter { font-size: 13px; color: var(--grau); }
+.kachel.dunkel { background: var(--dunkel); color: #fff; box-shadow: none; }
+.kachel.dunkel .k-unter { color: var(--hellgrau); }
+.kachel.rot { background: var(--rot); color: #fff; box-shadow: none; }
+.kachel.rot .marke { background: #fff; }
+.kachel.rot .k-unter { color: #FFE3E5; }
+.kampf-kachel { display: flex; align-items: center; gap: 14px; background: var(--dunkel); color: #fff; border-radius: 12px; padding: 14px 16px; text-align: left; width: 100%; }
+.kampf-kachel .marke { width: 6px; height: 44px; background: var(--rot); flex: none; }
+.fuss { text-align: center; }
+
+/* Gürtel-Liste */
+.gurt-zeile { display: flex; align-items: center; gap: 12px; min-height: 56px; padding: 8px 12px; border-radius: 10px; background: var(--karte); box-shadow: 0 1px 2px rgba(20,20,22,.10); text-align: left; width: 100%; }
+.gurt-zeile.ziel-an { background: var(--dunkel); color: #fff; box-shadow: none; }
+.gurt-zeile.ziel-an .klein { color: var(--hellgrau); }
+.gurt-zeile.ziel-an .pfeil { color: #fff; }
+.tag { font-size: 12px; font-weight: 700; padding: 3px 8px; border-radius: 4px; background: var(--rot); color: #fff; flex: none; }
+
+/* Reiter */
+.reiter { display: flex; gap: 2px; overflow-x: auto; margin: 10px -20px -16px; padding: 0 8px; scrollbar-width: none; }
+.reiter::-webkit-scrollbar { display: none; }
+.reiter button { flex: none; min-height: 44px; padding: 0 12px; font-family: var(--titel); font-weight: 700; font-size: 15px; letter-spacing: .04em; text-transform: uppercase; color: #9A9AA0; border-bottom: 4px solid transparent; }
+.reiter button[aria-selected="true"] { color: #fff; border-bottom-color: var(--rot); }
+
+.ziel-schalter { display: flex; align-items: center; gap: 12px; min-height: 56px; padding: 12px 16px; border-radius: 12px; border: 2px solid var(--rot); background: var(--karte); text-align: left; width: 100%; }
+.ziel-schalter.an { border-color: var(--dunkel); background: var(--dunkel); color: #fff; }
+.ziel-schalter.an .klein { color: var(--hellgrau); }
+.ziel-schalter .zeichen { font-size: 24px; font-weight: 700; color: var(--rot); }
+.ziel-schalter.an .zeichen { color: #fff; }
+
+.liste { margin: 4px 0 0; padding-left: 18px; font-size: 15px; line-height: 1.5; }
+.bild-platz { border: 2px dashed var(--hellgrau); border-radius: 10px; background: #F7F7F8; min-height: 150px; display: grid; place-items: center; text-align: center; color: var(--grau); padding: 16px; }
+.bild { width: 100%; border-radius: 12px; display: block; background: #fff; }
+details.ablauf summary { cursor: pointer; color: var(--rot); font-weight: 700; padding: 10px 0; list-style: none; }
+details.ablauf summary::-webkit-details-marker { display: none; }
+details.ablauf summary::before { content: "▸ "; }
+details.ablauf[open] summary::before { content: "▾ "; }
+
+/* Checkliste */
+.check { display: flex; align-items: center; gap: 14px; min-height: 56px; padding: 12px 14px; border-radius: 12px; background: var(--karte); box-shadow: 0 1px 2px rgba(20,20,22,.10); text-align: left; width: 100%; }
+.check .box { width: 28px; height: 28px; flex: none; border-radius: 6px; border: 2px solid #B8B8BE; display: grid; place-items: center; color: #fff; font-weight: 700; }
+.check.an .box { background: var(--gruen); border-color: var(--gruen); }
+.fortschritt { height: 8px; border-radius: 4px; background: var(--dunkel2); overflow: hidden; margin-top: 6px; }
+.fortschritt i { display: block; height: 100%; background: var(--rot); border-radius: 4px; transition: width .3s; }
+
+/* Verein */
+.tage { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; margin-top: 6px; }
+.tage div { background: var(--dunkel); color: #fff; border-radius: 8px; padding: 10px 0; text-align: center; }
+.tage b { font-family: var(--titel); font-size: 20px; display: block; }
+.tage span { font-size: 12px; color: var(--hellgrau); }
+.kontakt { display: flex; align-items: center; justify-content: space-between; gap: 10px; min-height: 48px; border-bottom: 1px solid #E6E6E9; }
+.kontakt:last-child { border-bottom: 0; }
+.kontakt .wert { font-weight: 700; user-select: all; overflow-wrap: anywhere; text-align: right; }
+.kopieren { font-size: 13px; font-weight: 700; color: var(--rot); padding: 8px 4px; flex: none; }
+
+/* dunkle Spielseiten */
+.dunkle-seite { background: var(--dunkel); color: #fff; }
+.dunkle-seite .klein { color: var(--hellgrau); }
+.opt-btn { width: 100%; min-height: 60px; border-radius: 12px; background: var(--dunkel2); color: #fff; font-size: 17px; font-weight: 600; padding: 8px 12px; line-height: 1.25; }
+.opt-btn small { display: block; font-size: 13px; color: rgba(255,255,255,.85); font-weight: 600; }
+.opt-btn.richtig { background: var(--gruen); }
+.opt-btn.falsch { background: var(--falsch); }
+.quiz-opts .opt-btn { background: var(--dunkel); }
+
+.kommando-mitte { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; padding: 16px; text-align: center; }
+.kmd-ton { width: 140px; height: 140px; border-radius: 50%; background: var(--rot); display: grid; place-items: center; }
+.kmd-ton svg { width: 60px; height: 60px; }
+.kmd-wort { font-family: var(--titel); font-weight: 700; font-size: 30px; }
+.unsichtbar { visibility: hidden; }
+
+/* Lernkarten */
+.lernkarte { flex: 1; min-height: 300px; border-radius: 16px; background: var(--karte); box-shadow: 0 2px 6px rgba(20,20,22,.14); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; text-align: center; padding: 20px; width: 100%; }
+.lernkarte.hinten { background: var(--dunkel); color: #fff; }
+.lernkarte .wort { font-family: var(--titel); font-weight: 700; font-size: 30px; line-height: 1.15; }
+.lernkarte .hg { font-family: var(--kr); color: var(--rot); font-weight: 700; font-size: 18px; }
+.zwei { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.zwei button { min-height: 64px; border-radius: 12px; font-weight: 700; font-size: 15px; line-height: 1.3; }
+.btn-rand { border: 2px solid var(--dunkel); background: var(--karte); }
+.btn-gruen { background: var(--gruen); color: #fff; }
+.leiste { height: 4px; background: #DCDCE0; }
+.leiste i { display: block; height: 100%; background: var(--rot); transition: width .3s; }
+
+/* Quiz */
+.frage { align-items: center; text-align: center; padding: 18px; border-radius: 16px; gap: 8px; }
+.kat { font-size: 12px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: #fff; background: var(--rot); padding: 3px 10px; border-radius: 4px; }
+.frage .wort { font-family: var(--titel); font-weight: 700; font-size: 28px; line-height: 1.2; text-wrap: balance; }
+.frage .wort.lang { font-size: 21px; }
+.quiz-opts { display: flex; flex-direction: column; gap: 10px; }
+
+/* Kampf */
+.tafel { display: flex; align-items: stretch; gap: 0; padding-block: 0 8px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); background: var(--dunkel); }
+.tafel .seite-p { flex: 1; border-radius: 10px; padding: 6px; text-align: center; color: #fff; font-variant-numeric: tabular-nums; }
+.tafel .hong { background: var(--rot); }
+.tafel .chung { background: var(--chung); }
+.tafel .nm { font-size: 12px; font-weight: 700; }
+.tafel .pk { font-family: var(--titel); font-weight: 700; font-size: 34px; line-height: 1.1; }
+.tafel .inf { font-size: 12px; }
+.tafel .mitte { width: 84px; display: flex; flex-direction: column; align-items: center; justify-content: center; color: #fff; }
+.tafel .zeit { font-family: var(--titel); font-weight: 700; font-size: 26px; font-variant-numeric: tabular-nums; }
+#kampfflaeche { flex: 1; min-height: 200px; position: relative; }
+#kampfflaeche canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.k-tipp { color: #fff; font-weight: 700; font-size: 14px; text-align: center; padding-block: 8px 4px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); min-height: 44px; }
+.k-steuer { padding-block: 4px 16px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-bottom: max(16px, env(safe-area-inset-bottom, 0px)); display: flex; flex-direction: column; gap: 8px; }
+.k-gitter { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.k-btn { min-height: 60px; border-radius: 12px; background: var(--dunkel2); color: #fff; font-size: 14px; font-weight: 700; padding: 6px; line-height: 1.25; }
+.k-btn small { display: block; font-size: 11px; font-weight: 600; color: var(--hellgrau); }
+.k-btn.dreh { background: #3A2A2E; }
+.k-btn:active { filter: brightness(1.2); }
+.k-karte { background: var(--dunkel2); border-radius: 12px; padding: 14px 16px; color: #fff; display: flex; flex-direction: column; gap: 6px; }
+.abwehr-zeit { height: 6px; border-radius: 3px; background: var(--rot); margin: 0 auto; transition: width .1s linear; }
+
+.toast { position: fixed; left: 50%; bottom: calc(24px + env(safe-area-inset-bottom, 0px)); transform: translateX(-50%); max-width: min(440px, calc(100% - 32px)); background: var(--dunkel); color: #fff; padding: 12px 16px; border-radius: 10px; font-size: 14px; box-shadow: 0 4px 14px rgba(0,0,0,.35); z-index: 50; }
+@media (min-width: 520px) { #app { box-shadow: 0 0 40px rgba(0,0,0,.5); } }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+
+</head>
+<body>
+<div id="app" aria-live="polite"></div>
+<div class="toast" id="toast" hidden></div>
+
+<script id="daten" type="application/json">{"guertel": [{"stufe": 0, "grad": "10. Kup", "name": "Weißgurt", "farbe": "#FFFFFF", "streifen": "#FFFFFF", "dunkel": false, "niveau": "Einstieg", "monate": 0, "technik": "—", "zweikampf": "Dojang-Regeln und grundlegender Umgang", "theorie": "—", "poomsae": "—", "bruchtest": "—", "wahlpflicht": "—", "optionen": []}, {"stufe": 1, "grad": "9. Kup", "name": "Weiß-Gelb", "farbe": "#FFFFFF", "streifen": "#F2C500", "dunkel": false, "niveau": "Anfänger", "monate": 2, "technik": "Basis-Einzeltechniken", "zweikampf": "Step-Sparring; Pratzensparring", "theorie": "Koreanische und deutsche Bezeichnungen; Kommandos; Stellungen", "poomsae": "—", "bruchtest": "—", "wahlpflicht": "Kein Wahlpflichtteil", "optionen": []}, {"stufe": 2, "grad": "8. Kup", "name": "Gelbgurt", "farbe": "#F2C500", "streifen": "#F2C500", "dunkel": false, "niveau": "Anfänger", "monate": 2, "technik": "Basis-Einzel- und Mehrfachtechniken; Vorprogramm", "zweikampf": "Step-Sparring; Pratzensparring; Angriff/Konter", "theorie": "Bezeichnungen, Basis- und Wahlpflichtprogramm", "poomsae": "—", "bruchtest": "—", "wahlpflicht": "1 Wahlpflichtfach", "optionen": ["Ein-Schritt-Kampf", "Kreuzformen", "Situationssparring", "Freies Sparring", "Fallschule und einfache Selbstverteidigung"]}, {"stufe": 3, "grad": "7. Kup", "name": "Gelb-Grün", "farbe": "#F2C500", "streifen": "#2E8B3E", "dunkel": false, "niveau": "Anfänger", "monate": 2, "technik": "1. Form; Grundschule aus Vorprogramm", "zweikampf": "Step-Sparring; Pratzensparring", "theorie": "Erklärung bisheriger Techniken, Stellungen und Übungen", "poomsae": "Taeguk Il Jang", "bruchtest": "—", "wahlpflicht": "1 Wahlpflichtfach", "optionen": ["Ein-Schritt-Kampf", "Kreuzformen", "Situationssparring", "Freies Sparring", "Fallschule und einfache Selbstverteidigung – Inhalt laut Handbuch: einfache Fallübungen zum Schutz vor Verletzungen"]}, {"stufe": 4, "grad": "6. Kup", "name": "Grüngurt", "farbe": "#2E8B3E", "streifen": "#2E8B3E", "dunkel": true, "niveau": "Anfänger", "monate": 2, "technik": "2. Form; Grundschule aus Vorprogramm", "zweikampf": "Step-Sparring; Pratzensparring", "theorie": "Notwehrrecht; Vorwissen", "poomsae": "Taeguk I Jang", "bruchtest": "—", "wahlpflicht": "1 Wahlpflichtfach", "optionen": ["Ein-Schritt-Kampf", "Kreuzformen", "Situationssparring", "Freies Sparring", "Fallschule und einfache Selbstverteidigung – Inhalt laut Handbuch: Selbstverteidigung aus der Nahdistanz (Klammern, Würgen, Halten)"]}, {"stufe": 5, "grad": "5. Kup", "name": "Grün-Blau", "farbe": "#2E8B3E", "streifen": "#0047A0", "dunkel": true, "niveau": "Anfänger", "monate": 2, "technik": "3. Form; Grundschule aus Vorprogramm", "zweikampf": "Step-Sparring; Pratzensparring", "theorie": "Geistige Hintergründe des Taekwondo", "poomsae": "Taeguk Sam Jang", "bruchtest": "—", "wahlpflicht": "1 Wahlpflichtfach", "optionen": ["Ein-Schritt-Kampf", "Kreuzformen", "Situationssparring", "Freies Sparring", "Fallschule und einfache Selbstverteidigung – Inhalt laut Handbuch: Selbstverteidigung aus naher und mittlerer Distanz (Reichweite von Faustschlägen)"]}, {"stufe": 6, "grad": "4. Kup", "name": "Blaugurt", "farbe": "#0047A0", "streifen": "#0047A0", "dunkel": true, "niveau": "Fortgeschritten", "monate": 4, "technik": "Grundschule; 4. Form", "zweikampf": "Pratzensparring; Situationssparring", "theorie": "Vitalpunkte; Wettkampfregeln (WOZ/WOP)", "poomsae": "Taeguk Sa Jang", "bruchtest": "1 Bruchtest (ab 15 Jahren), z. B. Ap-chagi, Naeryo-chagi oder Sonnal-chigi\nUnter 15 Jahren: statt Bruchtest ein zusätzliches Wahlpflichtfach.\nBretter (Fichte, ca. 30 × 30 cm): 3 cm Männer 18–49, 2 cm Frauen, Jugendliche ab 14 und Männer ab 50.", "wahlpflicht": "1 Wahlpflichtfach", "optionen": ["Ein-Schritt-Kampf", "Zwei-/Drei-Schritt-Kampf", "Poomsae-Anwendungen", "Weitere Poomsae", "Aufgabensparring", "Freies Sparring", "Selbstverteidigung"]}, {"stufe": 7, "grad": "3. Kup", "name": "Blau-Rot", "farbe": "#0047A0", "streifen": "#CD2E3A", "dunkel": true, "niveau": "Fortgeschritten", "monate": 4, "technik": "Grundschule; 5. Form", "zweikampf": "Pratzensparring; Situationssparring", "theorie": "Trainingsinhalte erläutern", "poomsae": "Taeguk Oh Jang", "bruchtest": "2 Bruchtests (ab 15 Jahren): je eine Hand- und eine Fußtechnik\nHand z. B. Sonnal-chigi oder Palkup-chigi\nFuß z. B. Dollyo-chagi, Yop-chagi oder Twio ap-chagi\nUnter 15 Jahren: statt Bruchtest ein zusätzliches Wahlpflichtfach.\nBretter (Fichte, ca. 30 × 30 cm): 3 cm Männer 18–49, 2 cm Frauen, Jugendliche ab 14 und Männer ab 50.", "wahlpflicht": "1 Wahlpflichtfach", "optionen": ["Ein-Schritt-Kampf", "Zwei-/Drei-Schritt-Kampf", "Poomsae-Anwendungen", "Weitere Poomsae", "Aufgabensparring", "Freies Sparring", "Selbstverteidigung"]}, {"stufe": 8, "grad": "2. Kup", "name": "Rotgurt", "farbe": "#CD2E3A", "streifen": "#CD2E3A", "dunkel": true, "niveau": "Fortgeschritten", "monate": 6, "technik": "Grundschule; 6. Form", "zweikampf": "Pratzensparring; Situationssparring", "theorie": "Technikprinzipien; Vorwissen", "poomsae": "Taeguk Yuk Jang", "bruchtest": "2 Bruchtests (ab 15 Jahren): je eine Hand- und eine Fußtechnik\nHand z. B. Sonnal-chigi\nFuß z. B. Dollyo-chagi, Mom-dollyo yop-chagi, Dwit-chagi oder Twio yop-chagi\nUnter 15 Jahren: statt Bruchtest ein zusätzliches Wahlpflichtfach.\nBretter (Fichte, ca. 30 × 30 cm): 3 cm Männer 18–49, 2 cm Frauen, Jugendliche ab 14 und Männer ab 50.", "wahlpflicht": "1 Wahlpflichtfach", "optionen": ["Ein-Schritt-Kampf", "Zwei-/Drei-Schritt-Kampf", "Poomsae-Anwendungen", "Weitere Poomsae", "Aufgabensparring", "Freies Sparring", "Selbstverteidigung"]}, {"stufe": 9, "grad": "1. Kup", "name": "Rot-Schwarz", "farbe": "#CD2E3A", "streifen": "#1C1C1C", "dunkel": true, "niveau": "Fortgeschritten", "monate": 6, "technik": "Grundschule; 7. Form", "zweikampf": "Pratzensparring; Situationssparring", "theorie": "DTU und Landesverband; Trainingslehre", "poomsae": "Taeguk Chil Jang", "bruchtest": "2 Bruchtests (ab 15 Jahren): je eine Hand- und eine Fußtechnik\nHand z. B. Jirugi oder Sonnal-dung-chigi\nFuß z. B. Bandae dollyo-chagi, Twio dwit-chagi oder Twio dollyo-chagi\nUnter 15 Jahren: statt Bruchtest ein zusätzliches Wahlpflichtfach.\nBretter (Fichte, ca. 30 × 30 cm): 3 cm Männer 18–49, 2 cm Frauen, Jugendliche ab 14 und Männer ab 50.", "wahlpflicht": "1 Wahlpflichtfach", "optionen": ["Ein-Schritt-Kampf", "Zwei-/Drei-Schritt-Kampf", "Poomsae-Anwendungen", "Weitere Poomsae", "Aufgabensparring", "Freies Sparring", "Selbstverteidigung"]}, {"stufe": 10, "grad": "1. Dan", "name": "Schwarzgurt", "farbe": "#1C1C1C", "streifen": "#1C1C1C", "dunkel": true, "niveau": "Meistergrad", "monate": 12, "technik": "8. Taeguk und eine ausgeloste Vorform", "zweikampf": "Freies Sparring; technisch-taktisches Sparring", "theorie": "Vorwissen; gewählte Prüfungsfächer erläutern", "poomsae": "Taeguk Pal Jang + Vorform", "bruchtest": "3 Bruchtests (ab 15 Jahren), darunter eine Kombination\nUnter 15 Jahren: statt Bruchtest ein zusätzliches Wahlpflichtfach.\nBretter (Fichte, ca. 30 × 30 cm): 3 cm Männer 18–49, 2 cm Frauen, Jugendliche ab 14 und Männer ab 50.", "wahlpflicht": "2 Wahlpflichtfächer", "optionen": ["Ein-Schritt-Kampf", "Zwei-/Drei-Schritt-Kampf", "Poomsae-Anwendungen", "Weitere Poomsae", "Aufgabensparring", "Freies Sparring", "Selbstverteidigung"]}], "techniken": [{"id": "T001", "kategorie": "Sogi", "koreanisch": "Narani-sogi", "hangul": "나란히 서기", "aussprache": "Na-ra-ni so-gi", "deutsch": "Parallelstand", "stufe": 1, "beschreibung": "Beide Füße etwa schulterbreit parallel stellen; aufrecht stehen, Knie entspannt, Gewicht gleichmäßig verteilen.", "fehler": "Füße nach außen drehen oder Schultern hochziehen."}, {"id": "T002", "kategorie": "Sogi", "koreanisch": "Moa-sogi", "hangul": "모아서기", "aussprache": "Mo-a so-gi", "deutsch": "Geschlossener Stand", "stufe": 1, "beschreibung": "Füße nebeneinander stellen und Körper aufrichten; die Arme kontrolliert an den Seiten halten.", "fehler": "Knie durchdrücken oder Schultern verspannen."}, {"id": "T003", "kategorie": "Sogi", "koreanisch": "Ap-sogi", "hangul": "앞서기", "aussprache": "Ap so-gi", "deutsch": "Kurzer Vorwärtsstand", "stufe": 1, "beschreibung": "Einen Fuß nach vorne setzen; Füße etwa hüftbreit, Gewicht stabil auf beide Beine verteilen.", "fehler": "Füße auf eine Linie setzen und Balance verlieren."}, {"id": "T004", "kategorie": "Sogi", "koreanisch": "Ap-kubi", "hangul": "앞굽이", "aussprache": "Ap-ku-bi", "deutsch": "Langer Vorwärtsstand", "stufe": 2, "beschreibung": "Großen Schritt nach vorn machen; vorderes Knie beugen, hinteres Bein stabil strecken, Hüfte nach vorn ausrichten.", "fehler": "Vorderes Knie kippt nach innen."}, {"id": "T005", "kategorie": "Sogi", "koreanisch": "Dwit-kubi", "hangul": "뒷굽이", "aussprache": "Dwit-ku-bi", "deutsch": "Rückwärtsstand", "stufe": 3, "beschreibung": "Gewicht überwiegend aufs hintere, gebeugte Bein verlagern; vorderes Bein leichter belasten, Oberkörper aufrecht.", "fehler": "Gewicht unkontrolliert nach vorne verlagern."}, {"id": "T006", "kategorie": "Sogi", "koreanisch": "Juchum-sogi", "hangul": "주춤서기", "aussprache": "Dschu-tschum so-gi", "deutsch": "Reiterstand", "stufe": 2, "beschreibung": "Füße breit stellen, Knie nach außen beugen, Becken zentral absenken und Rücken aufrichten.", "fehler": "Knie fallen nach innen; Rücken krümmt sich."}, {"id": "T007", "kategorie": "Jireugi", "koreanisch": "Momtong-jireugi", "hangul": "몸통 지르기", "aussprache": "Mom-tong dschi-rü-gi", "deutsch": "Fauststoß zur Körpermitte", "stufe": 1, "beschreibung": "Faust von der Hüfte gerade zur Körpermitte führen, gleichzeitig Gegenfaust zur Hüfte zurückziehen; Handgelenk gerade halten.", "fehler": "Abknicken des Handgelenks; Ellenbogen weit seitlich."}, {"id": "T008", "kategorie": "Jireugi", "koreanisch": "Eolgul-jireugi", "hangul": "얼굴 지르기", "aussprache": "Ol-gul dschi-rü-gi", "deutsch": "Fauststoß auf Kopfhöhe", "stufe": 2, "beschreibung": "Faust entlang einer geraden Linie zur Kopfhöhe führen; Rumpf stabil und andere Hand gedeckt halten.", "fehler": "Schulter übermäßig anheben; Deckung öffnen."}, {"id": "T009", "kategorie": "Jireugi", "koreanisch": "Dubon-jireugi", "hangul": "두 번 지르기", "aussprache": "Du-bon dschi-rü-gi", "deutsch": "Doppelter Fauststoß", "stufe": 3, "beschreibung": "Zwei kontrollierte Fauststöße nacheinander zur Zielhöhe führen; rhythmisch die andere Hand zurückziehen.", "fehler": "Beide Schläge gleichzeitig ohne Kontrolle."}, {"id": "T010", "kategorie": "Makki", "koreanisch": "Arae-makki", "hangul": "아래 막기", "aussprache": "A-rä mak-ki", "deutsch": "Unterarmabwehr unten", "stufe": 1, "beschreibung": "Abwehrarm vor dem Oberkörper vorbereiten und diagonal nach außen/unten führen; Endposition vor dem Oberschenkel.", "fehler": "Arm zu weit nach außen reißen."}, {"id": "T011", "kategorie": "Makki", "koreanisch": "Momtong-an-makki", "hangul": "몸통 안 막기", "aussprache": "Mom-tong an mak-ki", "deutsch": "Block zur Körpermitte nach innen", "stufe": 2, "beschreibung": "Unterarm von außen nach innen vor die Körpermitte bewegen und mit der anderen Hand die Deckung organisieren.", "fehler": "Zu eng am Körper blocken."}, {"id": "T012", "kategorie": "Makki", "koreanisch": "Momtong-bakkat-makki", "hangul": "몸통 바깥 막기", "aussprache": "Mom-tong ba-kat mak-ki", "deutsch": "Block nach außen", "stufe": 3, "beschreibung": "Unterarm kontrolliert aus der Mitte nach außen auf mittlerer Höhe führen; festen Stand halten.", "fehler": "Überstrecktes Ellenbogengelenk."}, {"id": "T013", "kategorie": "Makki", "koreanisch": "Eolgul-makki", "hangul": "얼굴 막기", "aussprache": "Ol-gul mak-ki", "deutsch": "Oberer Block", "stufe": 2, "beschreibung": "Unterarm schräg vor die Stirn führen, Abstand zum Kopf lassen und Ellbogen kontrolliert halten.", "fehler": "Block direkt auf dem Kopf ablegen."}, {"id": "T014", "kategorie": "Makki", "koreanisch": "Sonnal-momtong-makki", "hangul": "손날 몸통 막기", "aussprache": "Son-nal mom-tong mak-ki", "deutsch": "Handkantenabwehr zur Mitte", "stufe": 4, "beschreibung": "Offene Hände in vorbereiteter Haltung bewegen, vordere Handkante auf Körperhöhe führen, hintere Hand kontrolliert decken.", "fehler": "Handgelenke abknicken; Deckung verlieren."}, {"id": "T015", "kategorie": "Makki", "koreanisch": "Batangson-makki", "hangul": "바탕손 막기", "aussprache": "Ba-tang-son mak-ki", "deutsch": "Handballenabwehr", "stufe": 5, "beschreibung": "Handballen in kontrollierter Bewegung zur Abwehrlinie führen; Finger zusammen und Handgelenk stabil halten.", "fehler": "Finger nach vorne in die Kontaktlinie strecken."}, {"id": "T016", "kategorie": "Makki", "koreanisch": "Gawi-makki", "hangul": "가위 막기", "aussprache": "Ga-wi mak-ki", "deutsch": "Scherenblock", "stufe": 6, "beschreibung": "Beide Arme koordiniert auf unterschiedlichen Höhen führen, einen oberen und einen unteren Schutzbereich abdecken.", "fehler": "Arme kreuzen unkontrolliert."}, {"id": "T017", "kategorie": "Makki", "koreanisch": "Hechyo-makki", "hangul": "헤쳐 막기", "aussprache": "He-tscho mak-ki", "deutsch": "Auseinanderführender Block", "stufe": 7, "beschreibung": "Arme zunächst nahe zusammenführen und dann beidseitig kontrolliert nach außen öffnen.", "fehler": "Arme zu weit hinter die Körperlinie führen."}, {"id": "T018", "kategorie": "Chagi", "koreanisch": "Ap-chagi", "hangul": "앞차기", "aussprache": "Ap tscha-gi", "deutsch": "Vorwärtstritt", "stufe": 1, "beschreibung": "Knie nach vorne oben anheben, Unterschenkel gerade nach vorn strecken, mit Fußballen treffen; Bein sofort zurückziehen und sicher absetzen.", "fehler": "Ohne Kniehub schwingen; Zehen nicht zurückziehen."}, {"id": "T019", "kategorie": "Chagi", "koreanisch": "Dollyeo-chagi", "hangul": "돌려차기", "aussprache": "Dol-ljo tscha-gi", "deutsch": "Halbkreis-/Rundtritt", "stufe": 2, "beschreibung": "Standfuß drehen, Hüfte öffnen, Knie seitlich anheben und Unterschenkel bogenförmig zum Ziel strecken; kontrolliert zurückziehen.", "fehler": "Standfuß nicht drehen und Knie belasten."}, {"id": "T020", "kategorie": "Chagi", "koreanisch": "Yeop-chagi", "hangul": "옆차기", "aussprache": "Jop tscha-gi", "deutsch": "Seitwärtstritt", "stufe": 3, "beschreibung": "Knie quer vor den Körper ziehen, Standfuß drehen, Ferse seitlich geradlinig zum Ziel schieben; Bein zurückziehen.", "fehler": "Mit Zehenspitze statt Ferse treffen."}, {"id": "T021", "kategorie": "Chagi", "koreanisch": "Dwi-chagi", "hangul": "뒤차기", "aussprache": "Dwi tscha-gi", "deutsch": "Rückwärtstritt", "stufe": 4, "beschreibung": "Über die Schulter Ziel prüfen, Rücken zum Ziel drehen, Knie anheben und Ferse rückwärts geradlinig stoßen; Balance sichern.", "fehler": "Blind nach hinten treten und Rücken überstrecken."}, {"id": "T022", "kategorie": "Chagi", "koreanisch": "Naeryeo-chagi", "hangul": "내려차기", "aussprache": "Nä-rjo tscha-gi", "deutsch": "Abwärtstritt", "stufe": 5, "beschreibung": "Gestrecktes oder leicht gebeugtes Bein kontrolliert hochführen und nach unten zum Ziel führen; auf ausreichenden Abstand achten.", "fehler": "Unkontrollierte Fallbewegung."}, {"id": "T023", "kategorie": "Chagi", "koreanisch": "Bandae-dollyeo-chagi", "hangul": "반대 돌려차기", "aussprache": "Ban-dä dol-ljo tscha-gi", "deutsch": "Gedrehter Rückwärts-Rundtritt", "stufe": 6, "beschreibung": "Rotation auf dem Standfuß einleiten, Ziel früh mit Blick erfassen und Ferse auf einer Kreisbahn zum Ziel führen.", "fehler": "Ohne Blickkontakt drehen; zu stark in Knie verdrehen."}, {"id": "T024", "kategorie": "Chagi", "koreanisch": "Mireo-chagi", "hangul": "밀어차기", "aussprache": "Mi-ro tscha-gi", "deutsch": "Schiebender Fußtritt", "stufe": 5, "beschreibung": "Knie hochziehen und Fußsohle geradlinig nach vorne schieben; Hüfte stabilisieren und Bein wieder anziehen.", "fehler": "Knie durchschlagen oder nach hinten lehnen."}, {"id": "T025", "kategorie": "Chagi", "koreanisch": "Dwi-huryeo-chagi", "hangul": "뒤후려차기", "aussprache": "Dwi hu-rjo tscha-gi", "deutsch": "Gedrehter Fersenhakentritt", "stufe": 7, "beschreibung": "Über hintere Schulter schauen, drehen und Ferse auf einer kontrollierten Hakenbahn führen; nach der Technik stabil landen.", "fehler": "Ohne Zielkontrolle durchschwingen."}, {"id": "T026", "kategorie": "Chagi", "koreanisch": "Twieo-ap-chagi", "hangul": "뛰어 앞차기", "aussprache": "Twi-o ap tscha-gi", "deutsch": "Gesprungener Vorwärtstritt", "stufe": 6, "beschreibung": "Aus stabilem Anlauf oder Stand abspringen, ein Knie anheben, mit dem anderen Bein gerade nach vorn treten und weich landen.", "fehler": "Unkontrolliert auf steifem Bein landen."}, {"id": "T027", "kategorie": "Chagi", "koreanisch": "Twieo-dollyeo-chagi", "hangul": "뛰어 돌려차기", "aussprache": "Twi-o dol-ljo tscha-gi", "deutsch": "Gesprungener Rundtritt", "stufe": 7, "beschreibung": "Absprung vorbereiten, Hüfte in der Luft zum Ziel drehen, kontrolliert mit dem Spann kicken und gelenkschonend landen.", "fehler": "Rotation zu spät einleiten."}, {"id": "T028", "kategorie": "Chagi", "koreanisch": "360°-Dollyeo-chagi", "hangul": "360도 돌려차기", "aussprache": "Sam-bäk-juk-schip-do dol-ljo tscha-gi", "deutsch": "Gedrehter Rundtritt", "stufe": 8, "beschreibung": "Nach Blick über die Schulter Ganzkörperrotation einleiten, Knie anheben, Rundtritt ausführen und Stand stabil wiederfinden.", "fehler": "Zu schnell drehen, ohne Ziel zu fixieren."}, {"id": "T029", "kategorie": "Chagi", "koreanisch": "Hoejeon-dollyeo-chagi", "hangul": "회전 돌려차기", "aussprache": "Hwe-dschon dol-ljo tscha-gi", "deutsch": "Sprung-Drehtritt (Trainingsbezeichnung)", "stufe": 9, "beschreibung": "Mit kontrollierter Rotation und Absprung einen Rundtritt ausführen; zunächst langsam mit Trainer und Pratze üben.", "fehler": "Ohne sichere Landetechnik trainieren."}, {"id": "T030", "kategorie": "Chagi", "koreanisch": "Ap-chagi – Dollyeo-chagi", "hangul": "앞차기 돌려차기", "aussprache": "Ap tscha-gi – Dol-ljo tscha-gi", "deutsch": "Vorwärts- und Rundtritt kombiniert", "stufe": 3, "beschreibung": "Nach geradem Vorwärtstritt schnell die Distanz anpassen, Hüfte drehen und Rundtritt nachsetzen; Deckung oben halten.", "fehler": "Nach erstem Tritt stehen bleiben und Deckung senken."}, {"id": "T031", "kategorie": "Chagi", "koreanisch": "Dollyeo-chagi – Dwi-chagi", "hangul": "돌려차기 뒤차기", "aussprache": "Dol-ljo tscha-gi – Dwi tscha-gi", "deutsch": "Rundtritt–Rückwärtstritt", "stufe": 7, "beschreibung": "Rundtritt kontrolliert zurückziehen, über Schulter Ziel erneut anvisieren und mit Rückwärtstritt nachsetzen.", "fehler": "Drehung ohne Blickkontakt."}, {"id": "T032", "kategorie": "Kibon", "koreanisch": "Kihap", "hangul": "기합", "aussprache": "Ki-hap", "deutsch": "Kampfschrei", "stufe": 1, "beschreibung": "Beim kraftvollen Technikabschluss kurz und bewusst ausatmen; weder die Stimme pressen noch die Atmung anhalten.", "fehler": "Die Luft bei Belastung anhalten."}, {"id": "T033", "kategorie": "Hosinsul", "koreanisch": "Sonmok-japgi-bangeo", "hangul": "손목 잡기 방어", "aussprache": "Son-mok dschap-gi bang-o", "deutsch": "Befreiung aus Handgelenkgriff", "stufe": 4, "beschreibung": "Stand stabilisieren, gefasste Hand in Richtung der Daumenöffnung drehen und mit Abstand aus dem Griff lösen; danach Distanz schaffen.", "fehler": "Mit roher Kraft gegen einen festen Griff ziehen."}, {"id": "T034", "kategorie": "Hosinsul", "koreanisch": "Geori-hwakbo", "hangul": "거리 확보", "aussprache": "Go-ri hwak-bo", "deutsch": "Abstand und Eigenschutz", "stufe": 2, "beschreibung": "Seitlich aus der Angriffslinie gehen, offene Schutzhände vor den Oberkörper nehmen, deutlich Abstand herstellen und Hilfe suchen.", "fehler": "Im Angriffsradius verharren."}, {"id": "T035", "kategorie": "Hosinsul", "koreanisch": "Hubang-nakbeop", "hangul": "후방 낙법", "aussprache": "Hu-bang nak-bop", "deutsch": "Rückwärtsfallen (unter Anleitung)", "stufe": 3, "beschreibung": "Kinn zur Brust, Rücken rund, Hüfte kontrolliert senken und mit Armen nach Trainingsmethodik abfangen; nur auf Matten üben.", "fehler": "Mit Hinterkopf aufkommen oder Arme starr abstützen."}], "begriffe": [{"id": "B001", "koreanisch": "Dobok", "hangul": "도복", "aussprache": "Do-bok", "deutsch": "Taekwondo-Anzug", "stufe": 1, "kategorie": "Allgemein"}, {"id": "B002", "koreanisch": "Ti", "hangul": "띠", "aussprache": "Ti", "deutsch": "Gürtel", "stufe": 1, "kategorie": "Allgemein"}, {"id": "B003", "koreanisch": "Dojang", "hangul": "도장", "aussprache": "Do-dschang", "deutsch": "Trainingshalle", "stufe": 1, "kategorie": "Allgemein"}, {"id": "B004", "koreanisch": "Sabomnim", "hangul": "사범님", "aussprache": "Sa-bom-nim", "deutsch": "Trainer/Meister (Anrede)", "stufe": 1, "kategorie": "Allgemein"}, {"id": "B005", "koreanisch": "Kukkiwon", "hangul": "국기원", "aussprache": "Kuk-ki-won", "deutsch": "Welt-Taekwondo-Hauptquartier", "stufe": 5, "kategorie": "Allgemein"}, {"id": "B006", "koreanisch": "Cha-ryeot", "hangul": "차렷", "aussprache": "Tscha-rjot", "deutsch": "Achtung", "stufe": 1, "kategorie": "Kommandos"}, {"id": "B007", "koreanisch": "Kyeong-rye", "hangul": "경례", "aussprache": "Kjong-nje", "deutsch": "Verbeugen", "stufe": 1, "kategorie": "Kommandos"}, {"id": "B008", "koreanisch": "Joon-bi", "hangul": "준비", "aussprache": "Dschun-bi", "deutsch": "Bereitmachen", "stufe": 1, "kategorie": "Kommandos"}, {"id": "B009", "koreanisch": "Shi-jak", "hangul": "시작", "aussprache": "Schi-dschak", "deutsch": "Beginn", "stufe": 1, "kategorie": "Kommandos"}, {"id": "B010", "koreanisch": "Geu-man", "hangul": "그만", "aussprache": "Gü-man", "deutsch": "Stopp", "stufe": 1, "kategorie": "Kommandos"}, {"id": "B011", "koreanisch": "Ba-ro", "hangul": "바로", "aussprache": "Ba-ro", "deutsch": "Zurück zur Ausgangsposition", "stufe": 2, "kategorie": "Kommandos"}, {"id": "B012", "koreanisch": "Dwi-ro-dora", "hangul": "뒤로 돌아", "aussprache": "Dwi-ro do-ra", "deutsch": "Umdrehen", "stufe": 2, "kategorie": "Kommandos"}, {"id": "B013", "koreanisch": "Hana", "hangul": "하나", "aussprache": "Ha-na", "deutsch": "Eins", "stufe": 1, "kategorie": "Zahlen"}, {"id": "B014", "koreanisch": "Dul", "hangul": "둘", "aussprache": "Dul", "deutsch": "Zwei", "stufe": 1, "kategorie": "Zahlen"}, {"id": "B015", "koreanisch": "Set", "hangul": "셋", "aussprache": "Set", "deutsch": "Drei", "stufe": 1, "kategorie": "Zahlen"}, {"id": "B016", "koreanisch": "Net", "hangul": "넷", "aussprache": "Net", "deutsch": "Vier", "stufe": 1, "kategorie": "Zahlen"}, {"id": "B017", "koreanisch": "Daseot", "hangul": "다섯", "aussprache": "Da-sot", "deutsch": "Fünf", "stufe": 1, "kategorie": "Zahlen"}, {"id": "B018", "koreanisch": "Yeoseot", "hangul": "여섯", "aussprache": "Jo-sot", "deutsch": "Sechs", "stufe": 1, "kategorie": "Zahlen"}, {"id": "B019", "koreanisch": "Ilgop", "hangul": "일곱", "aussprache": "Il-gop", "deutsch": "Sieben", "stufe": 1, "kategorie": "Zahlen"}, {"id": "B020", "koreanisch": "Yeodeol", "hangul": "여덟", "aussprache": "Jo-dol", "deutsch": "Acht", "stufe": 1, "kategorie": "Zahlen"}, {"id": "B021", "koreanisch": "Ahop", "hangul": "아홉", "aussprache": "A-hop", "deutsch": "Neun", "stufe": 1, "kategorie": "Zahlen"}, {"id": "B022", "koreanisch": "Yeol", "hangul": "열", "aussprache": "Jol", "deutsch": "Zehn", "stufe": 1, "kategorie": "Zahlen"}, {"id": "B023", "koreanisch": "Ap", "hangul": "앞", "aussprache": "Ap", "deutsch": "Vorne", "stufe": 1, "kategorie": "Richtung & Zonen"}, {"id": "B024", "koreanisch": "Dwit", "hangul": "뒤", "aussprache": "Dwi", "deutsch": "Hinten", "stufe": 2, "kategorie": "Richtung & Zonen"}, {"id": "B025", "koreanisch": "Yeop", "hangul": "옆", "aussprache": "Jop", "deutsch": "Seitlich", "stufe": 2, "kategorie": "Richtung & Zonen"}, {"id": "B026", "koreanisch": "Eolgul", "hangul": "얼굴", "aussprache": "Ol-gul", "deutsch": "Kopfbereich", "stufe": 2, "kategorie": "Richtung & Zonen"}, {"id": "B027", "koreanisch": "Momtong", "hangul": "몸통", "aussprache": "Mom-tong", "deutsch": "Rumpfbereich", "stufe": 1, "kategorie": "Richtung & Zonen"}, {"id": "B028", "koreanisch": "Arae", "hangul": "아래", "aussprache": "A-rä", "deutsch": "Unterer Bereich", "stufe": 1, "kategorie": "Richtung & Zonen"}, {"id": "B029", "koreanisch": "Jireugi", "hangul": "지르기", "aussprache": "Dschi-rü-gi", "deutsch": "Fauststoß", "stufe": 1, "kategorie": "Grundbegriffe"}, {"id": "B030", "koreanisch": "Makki", "hangul": "막기", "aussprache": "Mak-ki", "deutsch": "Block/Abwehr", "stufe": 1, "kategorie": "Grundbegriffe"}, {"id": "B031", "koreanisch": "Chagi", "hangul": "차기", "aussprache": "Tscha-gi", "deutsch": "Fußtritt", "stufe": 1, "kategorie": "Grundbegriffe"}, {"id": "B032", "koreanisch": "Sogi", "hangul": "서기", "aussprache": "So-gi", "deutsch": "Stand/Stellung", "stufe": 1, "kategorie": "Grundbegriffe"}, {"id": "B033", "koreanisch": "Poomsae", "hangul": "품새", "aussprache": "Pum-sä", "deutsch": "Formenlauf", "stufe": 3, "kategorie": "Grundbegriffe"}, {"id": "B034", "koreanisch": "Kyorugi", "hangul": "겨루기", "aussprache": "Kjo-ru-gi", "deutsch": "Wettkampf/Kampf", "stufe": 3, "kategorie": "Grundbegriffe"}, {"id": "B035", "koreanisch": "Hosinsul", "hangul": "호신술", "aussprache": "Ho-schin-sul", "deutsch": "Selbstverteidigung", "stufe": 4, "kategorie": "Grundbegriffe"}, {"id": "B037", "koreanisch": "Kup", "hangul": "급", "aussprache": "Kup", "deutsch": "Schülergrad", "stufe": 1, "kategorie": "Grundbegriffe"}, {"id": "B038", "koreanisch": "Dan", "hangul": "단", "aussprache": "Dan", "deutsch": "Meistergrad", "stufe": 5, "kategorie": "Grundbegriffe"}, {"id": "B039", "koreanisch": "Chung", "hangul": "청", "aussprache": "Tschong", "deutsch": "Blau", "stufe": 2, "kategorie": "Wettkampf"}, {"id": "B040", "koreanisch": "Hong", "hangul": "홍", "aussprache": "Hong", "deutsch": "Rot", "stufe": 2, "kategorie": "Wettkampf"}, {"id": "B041", "koreanisch": "Gam-jeom", "hangul": "감점", "aussprache": "Kam-dschom", "deutsch": "Strafpunkt", "stufe": 6, "kategorie": "Wettkampf"}, {"id": "E01", "koreanisch": "Bal", "hangul": "발", "aussprache": "Bal", "deutsch": "Fuß", "stufe": 1, "kategorie": "Körper"}, {"id": "E02", "koreanisch": "Jumeok", "hangul": "주먹", "aussprache": "Dschu-mok", "deutsch": "Faust", "stufe": 1, "kategorie": "Körper"}, {"id": "E03", "koreanisch": "Pal", "hangul": "팔", "aussprache": "Pal", "deutsch": "Arm", "stufe": 2, "kategorie": "Körper"}, {"id": "E04", "koreanisch": "Palmok", "hangul": "팔목", "aussprache": "Pal-mok", "deutsch": "Unterarm", "stufe": 2, "kategorie": "Körper"}, {"id": "E05", "koreanisch": "Sonnal", "hangul": "손날", "aussprache": "Son-nal", "deutsch": "Handkante", "stufe": 4, "kategorie": "Körper"}, {"id": "E06", "koreanisch": "Mureup", "hangul": "무릎", "aussprache": "Mu-rüp", "deutsch": "Knie", "stufe": 3, "kategorie": "Körper"}, {"id": "E07", "koreanisch": "Mok", "hangul": "목", "aussprache": "Mok", "deutsch": "Hals", "stufe": 4, "kategorie": "Körper"}, {"id": "E08", "koreanisch": "Palkup", "hangul": "팔굽", "aussprache": "Pal-gup", "deutsch": "Ellenbogen", "stufe": 5, "kategorie": "Körper"}, {"id": "E09", "koreanisch": "Teok", "hangul": "턱", "aussprache": "Tok", "deutsch": "Kinn", "stufe": 6, "kategorie": "Körper"}, {"id": "E10", "koreanisch": "Hogu", "hangul": "호구", "aussprache": "Ho-gu", "deutsch": "Schutzweste", "stufe": 3, "kategorie": "Wettkampf"}, {"id": "E11", "koreanisch": "Seung", "hangul": "승", "aussprache": "Süng", "deutsch": "Sieg / gewonnen", "stufe": 3, "kategorie": "Wettkampf"}, {"id": "E12", "koreanisch": "Hoejeon", "hangul": "회전", "aussprache": "Hwe-dschon", "deutsch": "Kampfrunde", "stufe": 6, "kategorie": "Wettkampf"}, {"id": "E13", "koreanisch": "Gallyeo", "hangul": "갈려", "aussprache": "Gal-ljo", "deutsch": "Trennen (Kommando im Kampf)", "stufe": 6, "kategorie": "Wettkampf"}, {"id": "E14", "koreanisch": "Gyesok", "hangul": "계속", "aussprache": "Ke-sok", "deutsch": "Weiterkämpfen", "stufe": 6, "kategorie": "Wettkampf"}, {"id": "E15", "koreanisch": "Gyeonggo", "hangul": "경고", "aussprache": "Kjong-go", "deutsch": "Verwarnung", "stufe": 6, "kategorie": "Wettkampf"}, {"id": "E16", "koreanisch": "Bigim", "hangul": "비김", "aussprache": "Bi-gim", "deutsch": "Unentschieden", "stufe": 6, "kategorie": "Wettkampf"}, {"id": "E17", "koreanisch": "Me-jumeok", "hangul": "메주먹", "aussprache": "Me-dschu-mok", "deutsch": "Hammerfaust", "stufe": 7, "kategorie": "Körper"}, {"id": "E18", "koreanisch": "Deung-jumeok", "hangul": "등주먹", "aussprache": "Dung-dschu-mok", "deutsch": "Rückfaust", "stufe": 6, "kategorie": "Körper"}, {"id": "E19", "koreanisch": "Baldeung", "hangul": "발등", "aussprache": "Bal-dung", "deutsch": "Fußspann", "stufe": 2, "kategorie": "Körper"}, {"id": "E20", "koreanisch": "Batangson", "hangul": "바탕손", "aussprache": "Ba-tang-son", "deutsch": "Handballen", "stufe": 8, "kategorie": "Körper"}, {"id": "E21", "koreanisch": "Twieo", "hangul": "뛰어", "aussprache": "Twi-o", "deutsch": "gesprungen", "stufe": 6, "kategorie": "Grundbegriffe"}, {"id": "E22", "koreanisch": "Pyojeok", "hangul": "표적", "aussprache": "Pjo-dschok", "deutsch": "Ziel", "stufe": 7, "kategorie": "Grundbegriffe"}, {"id": "E23", "koreanisch": "Gyeokpa", "hangul": "격파", "aussprache": "Gjok-pa", "deutsch": "Bruchtest", "stufe": 6, "kategorie": "Grundbegriffe"}, {"id": "E24", "koreanisch": "Taegeukgi", "hangul": "태극기", "aussprache": "Tä-gük-gi", "deutsch": "Koreanische Flagge", "stufe": 5, "kategorie": "Allgemein"}, {"id": "E25", "koreanisch": "Ilbo-daeryeon", "hangul": "일보 대련", "aussprache": "Il-bo dä-rjon", "deutsch": "Ein-Schritt-Übung", "stufe": 1, "kategorie": "Grundbegriffe"}, {"id": "E26", "koreanisch": "Gwae", "hangul": "괘", "aussprache": "Gwä", "deutsch": "Trigramm", "stufe": 3, "kategorie": "Allgemein"}], "formen": [{"id": "P01", "name": "Taeguk Il Jang", "hangul": "태극 1장", "aussprache": "Tä-gük Il Dschang", "stufe": 3, "symbol": "Himmel / Beginn", "trigramm": "Keon (건)", "beschreibung": "Keon – das Schöpferische, Eigenschaft: stark. 20 Bewegungen (Zählung nach Handbuch). Grundlage für alle weiteren Formen: Ap-sogi, Ap-kubi, Arae-maki, Momtong an-maki, Olgul-maki, Baro- und Bandae-jirugi, Ap-chagi."}, {"id": "P02", "name": "Taeguk I Jang", "hangul": "태극 2장", "aussprache": "Tä-gük I Dschang", "stufe": 4, "symbol": "Freude / See", "trigramm": "Tae (태)", "beschreibung": "Tae – das Heitere, Eigenschaft: fröhlich. 23 Bewegungen. Keine neuen Techniken; die Techniken der ersten Form werden mit vielen Vorwärtstritten und Fauststößen zum Kopf variiert."}, {"id": "P03", "name": "Taeguk Sam Jang", "hangul": "태극 3장", "aussprache": "Tä-gük Sam Dschang", "stufe": 5, "symbol": "Feuer", "trigramm": "Ri (리)", "beschreibung": "Ri – das Haftende, Eigenschaft: leuchtend. 34 Bewegungen, energisch vorgetragen. Neu: Dwit-kubi, Han-sonnal-maki und Sonnal mok-chigi."}, {"id": "P04", "name": "Taeguk Sa Jang", "hangul": "태극 4장", "aussprache": "Tä-gük Sa Dschang", "stufe": 6, "symbol": "Donner", "trigramm": "Jin (진)", "beschreibung": "Jin – das Erregende, Eigenschaft: bewegend. 29 Bewegungen; hier beginnt der Fortgeschrittenenbereich. Neu: Sonnal momtong-maki, Pyonsonkut tzirugi, Jebipum mok-chigi, Yop-chagi, Bakkat-maki und Dung-jumok ap-chigi."}, {"id": "P05", "name": "Taeguk Oh Jang", "hangul": "태극 5장", "aussprache": "Tä-gük O Dschang", "stufe": 7, "symbol": "Wind", "trigramm": "Seon (손)", "beschreibung": "Seon – das Sanfte, Eigenschaft: eindringlich (Bild: Wind und Holz). 32 Bewegungen. Neu: Mejumok naeryo-chigi, Palkup dollyo-chigi, Palkup pyojok-chigi und Koa-sogi."}, {"id": "P06", "name": "Taeguk Yuk Jang", "hangul": "태극 6장", "aussprache": "Tä-gük Juk Dschang", "stufe": 8, "symbol": "Wasser", "trigramm": "Gam (감)", "beschreibung": "Gam – das Abgründige, Eigenschaft: gefährlich (Bild: Wasser). 31 Bewegungen, fließend und kraftvoll. Neu: Hansonnal bituro-maki, Batangson-maki und Dollyo-chagi – die einzige der 17 Poomsae mit Dollyo-chagi."}, {"id": "P07", "name": "Taeguk Chil Jang", "hangul": "태극 7장", "aussprache": "Tä-gük Tschil Dschang", "stufe": 9, "symbol": "Berg", "trigramm": "Gan (간)", "beschreibung": "Gan – das Stillehalten, Eigenschaft: ruhend (Bild: Berg). 33 Bewegungen. Neu: Bom-sogi, Juchum-sogi, Kawi-maki, Murup-chigi, Hecho-maki, Otkoro arae-maki, Pyojok-chagi und Yop-jirugi."}, {"id": "P08", "name": "Taeguk Pal Jang", "hangul": "태극 8장", "aussprache": "Tä-gük Pal Dschang", "stufe": 10, "symbol": "Erde", "trigramm": "Gon (곤)", "beschreibung": "Gon – das Empfangende, Eigenschaft: hingebend (Bild: Erde). 38 Bewegungen, zwei Kihaps; Hauptform zum 1. Dan. Neu: Koduro bakkat-maki, Koduro arae-maki, Dubal dangsong ap-chagi, Wesantul-maki und Dankyo tok-jirugi."}], "themen": [{"id": "W01", "titel": "Dojang-Etikette", "stufe": 1, "text": "Sicherheitsabstand, Verbeugung, Respekt vor Trainingspartnern, saubere Trainingskleidung."}, {"id": "W02", "titel": "Verhalten beim Training", "stufe": 1, "text": "Anweisungen beachten, Schmuck ablegen, Partner schützen, kontrollierte Bewegungen."}, {"id": "W03", "titel": "Koreanische Kommandos", "stufe": 1, "text": "Cha-ryeot, Kyeong-rye, Joon-bi, Shi-jak, Geu-man in deutscher Bedeutung."}, {"id": "W04", "titel": "Angriffs- und Körperzonen", "stufe": 2, "text": "Arae, Momtong, Eolgul unterscheiden."}, {"id": "W05", "titel": "Partnertraining", "stufe": 2, "text": "Distanz und Schutzausrüstung; Techniken kontrollieren und bei Unsicherheit stoppen."}, {"id": "W06", "titel": "Grundtechnik erklären", "stufe": 3, "text": "Ausgangsstellung, Bewegungsweg, Trefferfläche und Rückführung benennen."}, {"id": "W07", "titel": "Notwehr-Grundidee", "stufe": 4, "text": "Selbstschutz, Erforderlichkeit, Verhältnismäßigkeit im konkreten Kontext; kein Rechtsrat."}, {"id": "W08", "titel": "Werte des Taekwondo", "stufe": 5, "text": "Respekt, Selbstkontrolle, Ausdauer, Disziplin und Verantwortung."}, {"id": "W09", "titel": "Wettkampf-Grundlagen", "stufe": 6, "text": "Schutz, erlaubte Techniken und Strafpunkte; aktuelle Regeln vor Anwendung prüfen."}, {"id": "W10", "titel": "Körperliche Zielbereiche", "stufe": 6, "text": "Körperzonen im Training und besondere Schutzbedürftigkeit verstehen."}, {"id": "W11", "titel": "Trainingsaufbau", "stufe": 7, "text": "Aufwärmen, Technik, Partnerarbeit, Abwärmen und Regeneration erklären."}, {"id": "W12", "titel": "Technikprinzipien", "stufe": 8, "text": "Balance, Hüfteinsatz, Distanz, Deckung, Präzision und Atmung erklären."}, {"id": "W13", "titel": "Verbandsstruktur", "stufe": 9, "text": "Rolle der DTU und des Landesverbands erläutern."}, {"id": "W14", "titel": "Trainingslehre", "stufe": 9, "text": "Belastung, Erholung, Zielsetzung und sicherer Fortschritt."}, {"id": "W15", "titel": "Vorprogramm", "stufe": 10, "text": "Frühere Anforderungen wiederholen und praktisch erklären."}, {"id": "W16", "titel": "Prüfungsfach reflektieren", "stufe": 10, "text": "Ausgewählte Übungen erklären: Sinn, Sicherheitsregeln, typische Fehler."}, {"id": "H01", "titel": "Was bedeutet Taekwondo?", "stufe": 1, "text": "Tae = Fuß, Kwon = Faust, Do = Weg. Taekwondo ist eine koreanische Kampfkunst und seit 2000 olympische Sportart."}, {"id": "H02", "titel": "Kihap", "stufe": 1, "text": "Ki = Energie, Hap = Harmonie: ein kurzer Ruf aus dem Unterbauch, der die Kraft am Ende einer Technik bündelt. Er beginnt und endet mit der Technik."}, {"id": "H03", "titel": "Grundprinzipien der Technik", "stufe": 2, "text": "Locker bewegen und erst am Ende anspannen, Gleichgewicht halten, Hüfte einsetzen, mit der Gegenhand zurückziehen und beim Beschleunigen ausatmen."}, {"id": "H04", "titel": "Taeguk und die acht Trigramme", "stufe": 3, "text": "Taeguk bedeutet „große Ewigkeit“. Die acht Taeguk-Formen beruhen auf den acht Trigrammen (Gwae) des I Ging: Keon, Tae, Ri, Jin, Seon, Gam, Gan und Gon."}, {"id": "H05", "titel": "Partnerübungen (Taeryon)", "stufe": 3, "text": "Sambo-taeryon = Drei-Schritt-, Ibo-taeryon = Zwei-Schritt-, Ilbo-taeryon = Ein-Schritt-Übung. In der Kup-Prüfung wird die Ein-Schritt-Übung verlangt."}, {"id": "H06", "titel": "Koreanische Flagge (Taegukgi)", "stufe": 5, "text": "In der Mitte das Taeguk-Zeichen: rot oben für das aktive, blau unten für das passive Prinzip. Darum vier Trigramme aus dem I Ging."}, {"id": "H07", "titel": "Geschichte des Taekwondo", "stufe": 5, "text": "Nach 1945 entstanden in Korea mehrere Kampfkunstschulen (Kwans). Mitte der 1950er-Jahre kam der Name Taekwondo auf. 1972 wurde das Kukkiwon in Seoul eröffnet, 1973 die WTF gegründet (heute World Taekwondo)."}, {"id": "H08", "titel": "Taekwondo in Deutschland", "stufe": 5, "text": "Anfang der 1960er brachten koreanische Bergleute Taekwondo ins Ruhrgebiet. Die Deutsche Taekwondo Union (DTU) wurde 1981 gegründet. 1979 wurde Rainer Müller erster deutscher Weltmeister."}, {"id": "H09", "titel": "Bruchtest (Gyeokpa)", "stufe": 6, "text": "Ablauf: Helfer halten das Brett, Verbeugung und Ansage der Technik, ein- bis zweimal Maß nehmen, dann Ausführung mit Kihap. Bretter aus Fichte, etwa 30 × 30 cm."}, {"id": "H10", "titel": "Kommandos im Wettkampf", "stufe": 6, "text": "Charyeot (Achtung), Gyeongrye (Verbeugen), Junbi (bereit), Sijak (Beginn), Gallyeo (Trennen), Gyesok (Weiter), Geuman (Ende). Gyeonggo = Verwarnung, Gamjeom = Minuspunkt, Hong/Chung Seung = Sieger Rot/Blau."}, {"id": "H11", "titel": "Prüfungsbewertung", "stufe": 6, "text": "Die Prüfer bewerten jedes Fach mit Punkten. Ab einem Durchschnitt von 4,0 Punkten ist die Prüfung bestanden."}, {"id": "H12", "titel": "Poomsae-Wettkampf", "stufe": 8, "text": "Maximal 10 Punkte: je 5 für Technik und Präsentation. Leichte Fehler kosten 0,1, schwere 0,5 Punkte."}, {"id": "H13", "titel": "Dan-Formen", "stufe": 10, "text": "Insgesamt gibt es 17 Poomsae: 8 Taeguk und 9 Schwarzgurtformen – Koryo, Kumgang, Taebaek, Pyongwon, Sipjin, Jitae, Chonkwon, Hansu und Ilyo."}, {"id": "H14", "titel": "Poom", "stufe": 10, "text": "Unter 15 Jahren erhält man statt des Dan den Poom-Grad mit rot-schwarzem Gürtel."}], "wissen": [{"id": "W01", "frage": "Was bedeutet „Do“ in Taekwondo?", "richtig": "der Weg", "falsch": ["die Faust", "der Fuß", "die Kraft"], "stufe": 1}, {"id": "W02", "frage": "Was bedeutet „Kwon“ in Taekwondo?", "richtig": "die Faust", "falsch": ["der Weg", "der Fuß", "die Schule"], "stufe": 1}, {"id": "W03", "frage": "Was bedeutet „Tae“ in Taekwondo?", "richtig": "der Fuß", "falsch": ["die Faust", "der Weg", "die Hand"], "stufe": 1}, {"id": "W04", "frage": "Was bedeutet Kihap wörtlich?", "richtig": "Energie und Harmonie", "falsch": ["lauter Schrei", "Atem anhalten", "Gruß an den Meister"], "stufe": 1}, {"id": "W05", "frage": "Was legt man vor dem Training ab?", "richtig": "Uhren und Schmuck", "falsch": ["den Dobok", "den Gürtel", "die Schutzweste"], "stufe": 1}, {"id": "W06", "frage": "Wann verbeugt man sich im Dojang?", "richtig": "beim Betreten und Verlassen", "falsch": ["nur bei Prüfungen", "nur vor dem Freikampf", "nie"], "stufe": 1}, {"id": "W07", "frage": "Ab welchem Punktedurchschnitt ist eine Prüfung bestanden?", "richtig": "4,0", "falsch": ["3,0", "5,0", "2,5"], "stufe": 1}, {"id": "W08", "frage": "Was ist Ilbo-daeryeon?", "richtig": "Ein-Schritt-Übung", "falsch": ["Zwei-Schritt-Übung", "Freikampf", "Formenlauf"], "stufe": 1}, {"id": "W09", "frage": "Was bedeutet Taeguk?", "richtig": "große Ewigkeit", "falsch": ["großer Kampf", "Weg der Faust", "Erde"], "stufe": 3}, {"id": "W10", "frage": "Wie heißen die Trigramme auf Koreanisch?", "richtig": "Gwae", "falsch": ["Jang", "Poom", "Kup"], "stufe": 3}, {"id": "W11", "frage": "Was ist Koa-sogi?", "richtig": "Kreuzstand", "falsch": ["Tigerstand", "Reiterstand", "Rückwärtsstand"], "stufe": 7}, {"id": "W12", "frage": "Welche Stellung kommt in Taeguk Sam Jang neu hinzu?", "richtig": "Dwit-kubi", "falsch": ["Bom-sogi", "Juchum-sogi", "Koa-sogi"], "stufe": 5}, {"id": "W13", "frage": "Wofür steht Rot im Taeguk-Zeichen?", "richtig": "das aktive Prinzip", "falsch": ["das passive Prinzip", "die Erde", "das Wasser"], "stufe": 5}, {"id": "W14", "frage": "Seit wann ist Taekwondo offiziell olympisch?", "richtig": "2000 (Sydney)", "falsch": ["1988 (Seoul)", "1992 (Barcelona)", "2004 (Athen)"], "stufe": 5}, {"id": "W15", "frage": "Wann wurde die DTU gegründet?", "richtig": "1981", "falsch": ["1973", "1971", "1988"], "stufe": 5}, {"id": "W16", "frage": "Wann wurde die WTF (heute World Taekwondo) gegründet?", "richtig": "1973", "falsch": ["1981", "1955", "1988"], "stufe": 5}, {"id": "W17", "frage": "Was ist das Kukkiwon?", "richtig": "die Welt-Taekwondo-Zentrale in Seoul", "falsch": ["der deutsche Verband", "eine Gürtelfarbe", "eine Schwarzgurtform"], "stufe": 5}, {"id": "W18", "frage": "Ab welcher Prüfung gibt es den ersten Bruchtest?", "richtig": "zum 4. Kup (Blaugurt)", "falsch": ["zum 7. Kup", "zum 8. Kup", "zum 1. Dan"], "stufe": 6}, {"id": "W19", "frage": "Welche Brettstärke gilt für Männer von 18 bis 49 Jahren?", "richtig": "3 cm", "falsch": ["2 cm", "1 cm", "4 cm"], "stufe": 6}, {"id": "W20", "frage": "In welcher Form kommt Dollyo-chagi vor?", "richtig": "Taeguk Yuk Jang", "falsch": ["Taeguk Il Jang", "Taeguk Sa Jang", "Taeguk Pal Jang"], "stufe": 8}, {"id": "W21", "frage": "Welcher Stand heißt Tigerstand?", "richtig": "Bom-sogi", "falsch": ["Juchum-sogi", "Dwit-kubi", "Koa-sogi"], "stufe": 9}, {"id": "W22", "frage": "Wie viele Poomsae gibt es insgesamt?", "richtig": "17", "falsch": ["8", "9", "24"], "stufe": 10}, {"id": "W23", "frage": "Welche Form gehört zum 2. Dan?", "richtig": "Koryo", "falsch": ["Kumgang", "Taebaek", "Sipjin"], "stufe": 10}, {"id": "W24", "frage": "Wie heißt der Meistergrad für Kinder unter 15?", "richtig": "Poom", "falsch": ["Dan", "Kup", "Ti"], "stufe": 10}, {"id": "W25", "frage": "Wie viele Kihaps hat Taeguk Pal Jang?", "richtig": "zwei", "falsch": ["einen", "drei", "keinen"], "stufe": 10}]}
+</script>
+<script>
+"use strict";
+const D = JSON.parse(document.getElementById("daten").textContent);
+const app = document.getElementById("app");
+const LAUT = '<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5L6 9H3v6h3l5 4V5z" fill="#fff"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 5.5a9 9 0 0 1 0 13"/></svg>';
+
+// ---------- kleine Helfer ----------
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const mischen = a => { const b = a.slice(); for (let i = b.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [b[i], b[j]] = [b[j], b[i]]; } return b; };
+const zz = n => Math.floor(Math.random() * n);
+const punktWort = p => p === 1 ? "Punkt" : "Punkte";
+const lesen = (k, d) => { try { const v = localStorage.getItem("tkd_" + k); return v === null ? d : JSON.parse(v); } catch (e) { return d; } };
+const schreiben = (k, v) => { try { localStorage.setItem("tkd_" + k, JSON.stringify(v)); } catch (e) { /* Speicher nicht verfügbar */ } };
+let toastTimer = 0;
+function toast(t) { const el = document.getElementById("toast"); el.textContent = t; el.hidden = false; clearTimeout(toastTimer); toastTimer = setTimeout(() => el.hidden = true, 3500); }
+
+// ---------- Sprachausgabe (Stimme des Geräts) ----------
+let stimmen = [];
+function stimmenLaden() { try { stimmen = window.speechSynthesis ? speechSynthesis.getVoices() : []; } catch (e) { stimmen = []; } }
+stimmenLaden();
+try { if (window.speechSynthesis) speechSynthesis.onvoiceschanged = stimmenLaden; } catch (e) { }
+let koHinweis = false;
+function sag(text, lang, rate) {
+  if (!window.speechSynthesis) { toast("Dieser Browser kann nicht vorlesen."); return false; }
+  const v = stimmen.find(s => s.lang && s.lang.toLowerCase().startsWith(lang));
+  if (!v && lang === "ko" && !koHinweis) {
+    koHinweis = true;
+    toast("Keine koreanische Stimme gefunden. In den Handy-Einstellungen unter „Text-in-Sprache“ Koreanisch hinzufügen.");
+  }
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang = lang === "ko" ? "ko-KR" : "de-DE";
+  if (v) u.voice = v;
+  u.rate = rate;
+  speechSynthesis.cancel();
+  speechSynthesis.speak(u);
+  return true;
+}
+const sprich = hangul => { if (hangul) sag(hangul.replace(/\+/g, " "), "ko", 0.85); };
+function sprichDeutsch(t) { if (window.speechSynthesis && speechSynthesis.speaking) { speechSynthesis.cancel(); return; } sag(t, "de", 1); }
+
+// ---------- Navigation ----------
+const verlauf = [];
+let aufraeumen = [];
+function zeige(name, arg) { verlauf.push([name, arg]); malen(); window.scrollTo(0, 0); }
+function zurueck() { if (verlauf.length > 1) verlauf.pop(); malen(); window.scrollTo(0, 0); }
+function nachOben() { verlauf.length = 1; malen(); }
+function malen() {
+  aufraeumen.forEach(f => { try { f(); } catch (e) { } });
+  aufraeumen = [];
+  try { if (window.speechSynthesis) speechSynthesis.cancel(); } catch (e) { }
+  const [name, arg] = verlauf[verlauf.length - 1];
+  SEITEN[name](arg);
+}
+function setze(html, binden) {
+  app.innerHTML = html;
+  app.querySelectorAll("[data-zurueck]").forEach(b => b.addEventListener("click", zurueck));
+  app.querySelectorAll("[data-ko]").forEach(b => b.addEventListener("click", e => { e.stopPropagation(); sprich(b.dataset.ko); }));
+  if (binden) binden(app);
+}
+const klick = (root, sel, fn) => root.querySelectorAll(sel).forEach((el, i) => el.addEventListener("click", e => fn(el, i, e)));
+
+// ---------- Ziel-Gurt & Checkliste ----------
+const zielGurt = () => D.guertel.find(g => g.stufe === lesen("ziel", -1)) || null;
+function checkliste(g) {
+  const l = [];
+  const dazu = (t, w) => { if (w && w !== "—" && w !== "Kein Wahlpflichtteil") l.push([t, w.split("\n")[0].replace(/; /g, " · ")]); };
+  dazu("Poomsae", g.poomsae); dazu("Technik / Grundschule", g.technik); dazu("Zweikampf / Pratzen", g.zweikampf);
+  dazu("Theorie", g.theorie); dazu("Bruchtest", g.bruchtest); dazu("Wahlpflicht", g.wahlpflicht);
+  const nb = D.begriffe.filter(w => w.stufe === g.stufe).length;
+  if (nb > 0) l.push(["Neue Begriffe", nb + " Begriffe für diesen Gurt"]);
+  return l;
+}
+const abgehakt = (g, i) => !!lesen("check_" + g.stufe + "_" + i, false);
+function prozent(g) { const l = checkliste(g); if (!l.length) return 0; return Math.round(l.filter((_, i) => abgehakt(g, i)).length * 100 / l.length); }
+
+// ---------- Bausteine ----------
+const gurtMuster = (g, w, h) => `<span class="gurt" style="width:${w}px;height:${h}px;background:${g.farbe}">${g.streifen !== g.farbe ? `<i style="height:${Math.round(h / 3)}px;background:${g.streifen}"></i>` : ""}</span>`;
+const lautBtn = (hangul, extra = "") => `<button class="laut ${extra}" data-ko="${esc(hangul)}" aria-label="Aussprache anhören">${LAUT}</button>`;
+function kopf(titel, unter, rechts = "", strich = true) {
+  return `<header class="kopf auf-dunkel"><div class="zeile"><button class="rund-btn" data-zurueck aria-label="Zurück">←</button><h1 class="h-titel">${esc(titel)}</h1>${rechts}</div>${strich ? '<div class="strich"></div>' : ""}${unter ? `<div class="unter">${esc(unter)}</div>` : ""}</header>`;
+}
+function eintrag(ko, hangul, aus, de, extra = "", pfeil = false) {
+  return `<div class="eintrag" ${extra}><div class="txt"><span class="ko">${esc(ko)}<span class="hangul">${esc(hangul)}</span></span><span class="aus">[${esc(aus)}]</span><span class="de">${esc(de)}</span></div>${pfeil ? '<span class="pfeil" aria-hidden="true">›</span>' : ""}${lautBtn(hangul)}</div>`;
+}
+function bildOderPlatz(id) {
+  const n = id.toLowerCase();
+  return `<img class="bild" src="img/${n}.webp" alt="" loading="lazy" onerror="this.outerHTML='<div class=&quot;bild-platz&quot;><div><b>Bild folgt</b><div class=&quot;mini&quot;>${n}.webp</div></div></div>'">`;
+}
+
+// =====================================================================
+// Seiten
+// =====================================================================
+const SEITEN = {};
+
+SEITEN.start = () => {
+  const z = zielGurt();
+  const form = z ? D.formen.find(f => f.stufe === z.stufe) : null;
+  const zFarbe = z ? (z.farbe === "#FFFFFF" ? z.streifen : z.farbe) : "var(--rot)";
+  setze(`<div class="seite">
+    <header class="start-kopf">
+      <div class="logos"><img src="img/vereinslogo.png" alt="Vereinslogo"><div class="name"><div class="vname">TKD Duisburg-Hamborn</div><div class="klein" style="color:var(--hellgrau)">2001 e.V. · Taekwondo</div></div><img src="img/dto_logo.png" alt="Deutsche Taekwondo Organisation"></div>
+      <div class="strich" style="margin-top:4px"></div>
+      <div class="spruch">Gemeinsam sind wir stark!</div>
+      <div class="chips"><span>Kraft</span><span>Ausdauer</span><span>Mut</span><span>Disziplin</span><span>Höflichkeit</span></div>
+    </header>
+    <main class="inhalt">
+      <button class="karte ziel" id="ziel"><span class="farbe" style="background:${zFarbe}"></span><span style="flex:1;min-width:0;display:flex;flex-direction:column;gap:2px">
+        <span class="label">Dein Ziel</span>
+        <span class="t-gross">${z ? esc(z.name + " · " + z.grad) : "Noch kein Ziel gewählt"}</span>
+        <span class="klein">${z ? (form ? "Neu: " + esc(form.name) + " · " : "") + prozent(z) + " % abgehakt" : "Wähle den Gurt, auf den du dich vorbereitest."}</span></span>
+        <b style="color:var(--rot)">${z ? "Öffnen" : "Wählen"}</b></button>
+      <div class="kacheln">
+        <button class="kachel dunkel" data-ziel="guertel"><span class="marke"></span><span class="k-titel">Gürtel</span><span class="k-unter">Prüfungsinhalte</span></button>
+        <button class="kachel" data-ziel="karten"><span class="marke"></span><span class="k-titel">Lernkarten</span><span class="k-unter">Begriffe wiederholen</span></button>
+        <button class="kachel" data-ziel="kommando"><span class="marke"></span><span class="k-titel">Kommandos</span><span class="k-unter">Hören &amp; reagieren</span></button>
+        <button class="kachel rot" data-ziel="verein"><span class="marke"></span><span class="k-titel">Verein</span><span class="k-unter">Training &amp; Kontakt</span></button>
+      </div>
+      <button class="kampf-kachel" id="kampf"><span class="marke"></span><span style="flex:1;min-width:0;display:flex;flex-direction:column"><span class="k-titel" style="font-family:var(--titel);font-weight:700;font-size:18px;text-transform:uppercase;letter-spacing:.04em">Kyorugi · Kampfspiel</span><span class="klein" style="color:var(--hellgrau)">Punkte nach olympischen Regeln lernen</span></span><span style="font-size:26px;font-weight:700" aria-hidden="true">›</span></button>
+      <button class="haupt-btn dunkel" id="quiz">Quiz starten</button>
+      <p class="klein fuss">Training: Mo – Mi · 17:00 – 18:45 · Förderschule Duisburg-Nord</p>
+      <p class="mini fuss">Lernhilfe für unsere Mitglieder. Maßgeblich ist die Prüfungsordnung der D.T.O. – im Zweifel gilt, was die Prüfer und Trainer sagen.</p>
+    </main></div>`, r => {
+    r.querySelector("#ziel").onclick = () => zielGurt() ? zeige("meinweg") : zeige("guertel");
+    klick(r, "[data-ziel]", el => {
+      const n = el.dataset.ziel;
+      if (n === "karten") starteKarten();
+      if (n === "kommando") starteKommandos();
+      zeige(n);
+    });
+    r.querySelector("#kampf").onclick = () => { K.neu(); zeige("kampf"); };
+    r.querySelector("#quiz").onclick = () => {
+      const g = zielGurt();
+      if (g && g.stufe > 0) { starteQuiz(g); zeige("quiz"); }
+      else { toast("Wähle zuerst deinen Gurt."); zeige("guertel"); }
+    };
+  });
+};
+
+SEITEN.guertel = () => {
+  const z = zielGurt();
+  const zeilen = D.guertel.map(g => {
+    const an = z && z.stufe === g.stufe;
+    const form = D.formen.find(f => f.stufe === g.stufe);
+    const bruch = g.bruchtest && g.bruchtest !== "—";
+    const info = g.stufe === 0 ? "Einstieg" : form ? form.name + (bruch ? " · Bruchtest" : "") : "Grundschule";
+    return `<button class="gurt-zeile ${an ? "ziel-an auf-dunkel" : ""}" data-stufe="${g.stufe}">${gurtMuster(g, 50, 18)}
+      <span style="flex:1;min-width:0;display:flex;flex-direction:column"><span class="t-gross" style="font-size:17px">${esc(g.name)}</span><span class="klein">${esc(g.grad)} · ${esc(info)}</span></span>
+      ${an ? '<span class="tag">Dein Ziel</span>' : ""}<span class="pfeil" aria-hidden="true">›</span></button>`;
+  }).join("");
+  setze(`<div class="seite">${kopf("Gürtel", "Wähle den Gurt, auf den du dich vorbereitest.")}<main class="inhalt" style="gap:6px">${zeilen}</main></div>`,
+    r => klick(r, "[data-stufe]", el => zeige("gurt", { stufe: +el.dataset.stufe, tab: 0 })));
+};
+
+SEITEN.gurt = (a) => {
+  const g = D.guertel[a.stufe];
+  const reiter = ["Prüfung", "Technik", "Begriffe", "Poomsae", "Theorie"];
+  const info = g.monate > 0 ? `${g.grad} · ${g.niveau} · mind. ${g.monate} Monate` : `${g.grad} · ${g.niveau}`;
+  let inhalt = "";
+  const alt = (titel) => `<div class="label" style="margin-top:12px">${titel}</div>`;
+  const leer = t => `<div class="karte grau"><span class="t-text" style="font-size:15px">${esc(t)}</span></div>`;
+  if (a.tab === 0) {
+    const istZiel = (zielGurt() || {}).stufe === g.stufe;
+    inhalt += `<button class="ziel-schalter ${istZiel ? "an" : ""}" id="zielSchalter"><span style="flex:1;min-width:0;display:flex;flex-direction:column"><b style="font-size:16px">${istZiel ? "Das ist dein Ziel" : "Als mein Ziel festlegen"}</b><span class="klein">${istZiel ? "Checkliste unter „Dein Ziel“ auf der Startseite" : "Erscheint dann auf der Startseite"}</span></span><span class="zeichen" aria-hidden="true">${istZiel ? "✓" : "+"}</span></button>`;
+    if (g.stufe === 0) inhalt += leer("Einstieg ohne reguläre Prüfung. Lerne die Dojang-Regeln und das Verhalten im Training.");
+    [["Poomsae", g.poomsae], ["Technik / Grundschule", g.technik], ["Zweikampf / Pratzen", g.zweikampf], ["Theorie", g.theorie], ["Bruchtest", g.bruchtest], ["Wahlpflicht", g.wahlpflicht]].forEach(([t, w]) => {
+      if (!w || w === "—") return;
+      let k = `<div class="karte"><span class="label">${t}</span>`;
+      k += t === "Poomsae" ? `<span class="t-gross">${esc(w)}</span>` : `<span class="t-text">${esc(w.replace(/; /g, "\n"))}</span>`;
+      if (t === "Wahlpflicht" && g.optionen.length) k += `<b class="klein" style="margin-top:8px">Zur Auswahl:</b><ul class="liste">${g.optionen.map(o => `<li>${esc(o)}</li>`).join("")}</ul>`;
+      inhalt += k + "</div>";
+    });
+    if (g.stufe > 0) inhalt += `<div class="karte grau"><span class="label">Bewertung</span><span class="t-text" style="font-size:15px">Jedes Fach wird mit Punkten bewertet. Ab einem Durchschnitt von 4,0 Punkten ist die Prüfung bestanden.${g.stufe === 10 ? "\nUnter 15 Jahren: Poom statt Dan (rot-schwarzer Gürtel)." : ""}</span></div>`;
+    inhalt += `<p class="mini">Orientierung nach Kukkiwon-Standard und Handbuch Taekwondo. Maßgeblich ist die Prüfungsordnung der D.T.O. – Inhalte vor der Prüfung mit dem Trainer abstimmen.</p>`;
+  } else if (a.tab === 1) {
+    const neu = D.techniken.filter(t => t.stufe === g.stufe), wd = D.techniken.filter(t => t.stufe >= 1 && t.stufe < g.stufe);
+    const z = t => eintrag(t.koreanisch, t.hangul, t.aussprache, t.deutsch, `role="button" tabindex="0" data-technik="${t.id}"`, true);
+    inhalt += neu.length ? `<div class="label">Neu für diesen Gurt</div>` + neu.map(z).join("") : leer("Für diesen Gurt sind keine neuen Techniken vorgesehen. Wiederhole die Techniken der früheren Gurte.");
+    if (wd.length) inhalt += alt("Wiederholung aus früheren Gurten") + wd.map(z).join("");
+  } else if (a.tab === 2) {
+    const neu = D.begriffe.filter(w => w.stufe === g.stufe), wd = D.begriffe.filter(w => w.stufe >= 1 && w.stufe < g.stufe);
+    const z = w => eintrag(w.koreanisch, w.hangul, w.aussprache, w.deutsch);
+    if (!neu.length) inhalt += leer("Für diesen Gurt sind keine neuen Begriffe vorgesehen.");
+    const gruppen = {};
+    neu.forEach(w => (gruppen[w.kategorie] = gruppen[w.kategorie] || []).push(w));
+    Object.entries(gruppen).forEach(([k, l]) => inhalt += `<div class="label">${esc(k)}</div>` + l.map(z).join(""));
+    if (wd.length) inhalt += alt("Wiederholung aus früheren Gurten") + wd.map(z).join("");
+  } else if (a.tab === 3) {
+    const neu = D.formen.filter(f => f.stufe === g.stufe), wd = D.formen.filter(f => f.stufe < g.stufe);
+    if (!neu.length) inhalt += leer("Zu dieser Prüfung gehört keine neue Poomsae. Die erste Form (Taeguk Il Jang) kommt mit der Prüfung zum 7. Kup.");
+    neu.forEach(f => {
+      inhalt += `<div class="karte" style="gap:8px"><div style="display:flex;align-items:center;gap:12px"><div style="flex:1;min-width:0"><div class="t-gross" style="font-size:24px">${esc(f.name)}</div><div class="hangul" style="color:var(--rot);font-weight:700;font-size:16px">${esc(f.hangul)}</div><div class="aus">[${esc(f.aussprache)}]</div></div>${lautBtn(f.hangul, "gross")}</div>
+        <b>${esc(f.trigramm)} · ${esc(f.symbol)}</b><span class="t-text" style="font-size:15px;color:var(--ink2)">${esc(f.beschreibung)}</span>
+        <details class="ablauf"><summary>Ablaufplan anzeigen</summary><img class="bild" src="img/${f.id.toLowerCase()}.webp" alt="Ablaufplan ${esc(f.name)} mit Schrittfolge" loading="lazy"></details>
+        <span class="mini">Die genaue Schrittfolge mit dem Trainer üben.</span></div>`;
+    });
+    if (wd.length) inhalt += alt("Wiederholung aus früheren Gurten") + wd.map(f => eintrag(f.name, f.hangul, f.aussprache, f.symbol + " · Prüfung zum " + D.guertel[f.stufe].grad, `role="button" tabindex="0" data-form="${f.stufe}"`, true)).join("");
+  } else {
+    const neu = D.themen.filter(t => t.stufe === g.stufe), wd = D.themen.filter(t => t.stufe < g.stufe);
+    if (!neu.length) inhalt += leer("Für diesen Gurt sind keine neuen Theoriethemen vorgesehen.");
+    inhalt += neu.map(t => `<div class="karte"><span class="t-gross" style="font-size:18px">${esc(t.titel)}</span><span class="t-text" style="font-size:15px;color:var(--ink2)">${esc(t.text)}</span></div>`).join("");
+    if (wd.length) inhalt += alt("Wiederholung aus früheren Gurten") + wd.map(t => `<div class="karte"><b>${esc(t.titel)}</b><span class="t-text" style="font-size:14px;color:var(--ink2)">${esc(t.text)}</span></div>`).join("");
+  }
+  setze(`<div class="seite"><header class="kopf auf-dunkel" style="padding-bottom:16px"><div class="zeile"><button class="rund-btn" data-zurueck aria-label="Zurück">←</button>
+      <div style="flex:1;min-width:0"><h1 class="h-titel" style="font-size:24px">${esc(g.name)}</h1><div class="klein" style="color:var(--hellgrau)">${esc(info)}</div></div>${gurtMuster(g, 60, 20)}</div>
+      <div class="reiter" role="tablist">${reiter.map((n, i) => `<button role="tab" aria-selected="${i === a.tab}" data-tab="${i}">${n}</button>`).join("")}</div></header>
+    <main class="inhalt">${inhalt}</main>
+    ${g.stufe > 0 ? `<div class="unten"><button class="haupt-btn" id="quiz">Quiz · ${esc(g.name)}</button></div>` : ""}</div>`, r => {
+    klick(r, "[data-tab]", el => { a.tab = +el.dataset.tab; malen(); });
+    const zs = r.querySelector("#zielSchalter");
+    if (zs) zs.onclick = () => { const an = (zielGurt() || {}).stufe === g.stufe; schreiben("ziel", an ? -1 : g.stufe); malen(); };
+    klick(r, "[data-technik]", el => zeige("technik", el.dataset.technik));
+    klick(r, "[data-form]", el => zeige("gurt", { stufe: +el.dataset.form, tab: 3 }));
+    const q = r.querySelector("#quiz");
+    if (q) q.onclick = () => { starteQuiz(g); zeige("quiz"); };
+  });
+};
+
+SEITEN.technik = (id) => {
+  const t = D.techniken.find(x => x.id === id);
+  const ab = D.guertel[t.stufe];
+  const kartenKopf = (label, cls, vorlese) => `<div style="display:flex;align-items:center;gap:10px"><span class="label ${cls}" style="flex:1">${label}</span><button class="laut" data-de="${esc(vorlese)}" aria-label="Text vorlesen" style="width:40px;height:40px">${LAUT}</button></div>`;
+  setze(`<div class="seite">${kopf(t.kategorie, "ab " + ab.name + " (" + ab.grad + ")", gurtMuster(ab, 40, 14))}<main class="inhalt">
+    <div style="display:flex;align-items:center;gap:12px"><div style="flex:1;min-width:0"><div class="t-gross" style="font-size:30px">${esc(t.koreanisch)}</div><div class="hangul" style="color:var(--rot);font-weight:700;font-size:18px">${esc(t.hangul)}</div><div class="aus" style="font-size:16px">Aussprache: [${esc(t.aussprache)}]</div></div>${lautBtn(t.hangul, "gross")}</div>
+    <div style="font-size:19px;font-weight:700">${esc(t.deutsch)}</div>
+    ${bildOderPlatz(t.id)}
+    <div class="karte">${kartenKopf("Ausführung", "", t.beschreibung)}<span class="t-text">${esc(t.beschreibung)}</span></div>
+    <div class="karte rosa">${kartenKopf("Häufiger Fehler", "rot", "Häufiger Fehler: " + t.fehler)}<span class="t-text">${esc(t.fehler)}</span></div>
+    <p class="mini">Nur unter Aufsicht eines Trainers üben.</p></main></div>`, r => klick(r, "[data-de]", el => sprichDeutsch(el.dataset.de)));
+};
+
+SEITEN.meinweg = () => {
+  const g = zielGurt();
+  if (!g) { zurueck(); return; }
+  const p = prozent(g);
+  const punkte = checkliste(g).map(([t, u], i) => `<button class="check ${abgehakt(g, i) ? "an" : ""}" data-i="${i}" aria-pressed="${abgehakt(g, i)}"><span class="box">${abgehakt(g, i) ? "✓" : ""}</span><span style="flex:1;min-width:0;display:flex;flex-direction:column"><b style="font-size:16px">${esc(t)}</b><span class="klein">${esc(u)}</span></span></button>`).join("");
+  setze(`<div class="seite"><header class="kopf auf-dunkel"><div class="zeile"><button class="rund-btn" data-zurueck aria-label="Zurück">←</button><h1 class="h-titel">Mein Weg</h1></div>
+    <div style="display:flex;align-items:center;gap:14px;margin-top:14px">${gurtMuster(g, 60, 20)}<div><div class="t-gross">${esc(g.name + " · " + g.grad)}</div><div class="klein" style="color:var(--hellgrau)">Den Prüfungstermin sagt dir dein Trainer.</div></div></div>
+    <div style="display:flex;margin-top:14px"><span class="klein" style="color:var(--hellgrau);flex:1">Abgehakt</span><b>${p} %</b></div><div class="fortschritt"><i style="width:${p}%"></i></div></header>
+    <main class="inhalt"><div class="label">Prüfungs-Checkliste</div>${punkte}
+    <p class="klein">Häkchen setzt du selbst, wenn du es im Training sicher kannst. Sie werden nur in diesem Browser gespeichert.</p>
+    <button class="text-link" id="inhalte">Inhalte für ${esc(g.name)} ansehen ›</button></main>
+    ${g.stufe > 0 ? '<div class="unten"><button class="haupt-btn" id="quiz">Quiz für meinen Gurt</button></div>' : ""}</div>`, r => {
+    klick(r, "[data-i]", el => { const i = +el.dataset.i; schreiben("check_" + g.stufe + "_" + i, !abgehakt(g, i)); malen(); });
+    r.querySelector("#inhalte").onclick = () => zeige("gurt", { stufe: g.stufe, tab: 0 });
+    const q = r.querySelector("#quiz");
+    if (q) q.onclick = () => { starteQuiz(g); zeige("quiz"); };
+  });
+};
+
+SEITEN.verein = () => {
+  const kontakte = [["Telefon", "0203 / 55249447"], ["Mobil", "0157 / 82252773"], ["E-Mail", "vorstandrichter@web.de"]];
+  setze(`<div class="seite">${kopf("Unser Verein", "Leitung: Großmeister Kurt Richter · Mitglied der D.T.O.")}<main class="inhalt">
+    <div class="karte"><span class="label">Trainingszeiten</span><div class="tage"><div><b>MO</b><span>17:00–18:45</span></div><div><b>DI</b><span>17:00–18:45</span></div><div><b>MI</b><span>17:00–18:45</span></div></div>
+      <span class="t-text" style="margin-top:8px;font-size:15px">Turnhalle der städtischen Förderschule Duisburg-Nord
+Kopernikusstraße 38, 47167 Duisburg</span>
+      <a class="text-link" href="https://www.google.com/maps/search/?api=1&query=Kopernikusstra%C3%9Fe%2038%2C%2047167%20Duisburg" target="_blank" rel="noopener">In Karten öffnen ›</a></div>
+    <div class="karte" style="background:var(--rot);color:#fff;box-shadow:none"><span class="t-gross" style="font-size:22px;text-transform:uppercase;letter-spacing:.04em">Probetraining kostenlos</span><span style="font-size:15px;line-height:1.45">Ab 3 Jahren. T-Shirt und Jogginghose mitbringen, etwa 10 Minuten vorher da sein. Bitte vorher anmelden.</span></div>
+    <div class="karte"><span class="label">Kontakt</span>${kontakte.map(([n, w]) => `<div class="kontakt"><span>${n}</span><span style="display:flex;align-items:center;gap:6px;min-width:0"><span class="wert">${esc(w)}</span><button class="kopieren" data-kopie="${esc(w)}">Kopieren</button></span></div>`).join("")}
+      <div class="kontakt"><span>Webseite</span><a class="wert" style="color:var(--rot)" href="https://tkd-duisburg-2001.de/" target="_blank" rel="noopener">tkd-duisburg-2001.de</a></div></div>
+  </main></div>`, r => klick(r, "[data-kopie]", el => {
+    const w = el.dataset.kopie;
+    const ok = () => { el.textContent = "Kopiert"; setTimeout(() => el.textContent = "Kopieren", 1600); };
+    try { navigator.clipboard.writeText(w).then(ok, () => toast("Bitte die Nummer markieren und kopieren.")); } catch (e) { toast("Bitte die Nummer markieren und kopieren."); }
+  }));
+};
+
+// ---------- Kommando-Trainer ----------
+const KMD = { stapel: [], akt: null, opts: [], fehler: false, gesperrt: false, serie: 0, zeit: "–", start: 0 };
+const kommandoPool = () => D.begriffe.filter(w => w.kategorie === "Kommandos" || w.kategorie === "Zahlen");
+function starteKommandos() { Object.assign(KMD, { stapel: [], akt: null, serie: 0, zeit: "–" }); }
+function naechstesKommando() {
+  const pool = kommandoPool();
+  if (!KMD.stapel.length) KMD.stapel = mischen(pool);
+  let w = KMD.stapel.shift();
+  if (w === KMD.akt && KMD.stapel.length) w = KMD.stapel.shift();
+  KMD.akt = w;
+  KMD.opts = mischen(mischen(pool.filter(x => x.kategorie === w.kategorie && x.deutsch !== w.deutsch)).slice(0, 3).concat([w]));
+  KMD.fehler = false; KMD.gesperrt = false;
+}
+SEITEN.kommando = () => {
+  if (!KMD.akt) naechstesKommando();
+  const w = KMD.akt;
+  const sicht = KMD.gesperrt || KMD.fehler;
+  setze(`<div class="seite dunkle-seite" style="min-height:100%">${kopf("Kommando-Trainer", "Die App ruft ein Kommando – wie der Meister im Dojang. Tippe die richtige Bedeutung.")}
+    <div class="kommando-mitte"><button class="kmd-ton" id="ton" aria-label="Kommando anhören">${LAUT}</button>
+      <div class="kmd-wort ${sicht ? "" : "unsichtbar"}" id="wort">${esc(w.koreanisch)}</div>
+      <div class="klein ${sicht ? "" : "unsichtbar"}" id="hg"><span class="hangul" style="color:var(--hellgrau)">${esc(w.hangul)}</span> &nbsp;[${esc(w.aussprache)}]</div>
+      <div class="klein" id="stand">Reaktion: ${KMD.zeit} · Serie ${KMD.serie}</div>
+      ${sicht ? "" : '<button class="text-link" id="zeigen" style="padding:10px">Wort zeigen</button>'}</div>
+    <div class="inhalt" style="flex:none;padding-top:0">${KMD.opts.map((o, i) => `<button class="opt-btn" data-o="${i}">${esc(o.deutsch)}</button>`).join("")}</div></div>`, r => {
+    const sprechen = () => { KMD.start = performance.now(); sprich(w.hangul); };
+    r.querySelector("#ton").onclick = sprechen;
+    const zeigen = r.querySelector("#zeigen");
+    const aufdecken = () => { r.querySelector("#wort").classList.remove("unsichtbar"); r.querySelector("#hg").classList.remove("unsichtbar"); if (zeigen) zeigen.remove(); };
+    if (zeigen) zeigen.onclick = aufdecken;
+    const stand = r.querySelector("#stand");
+    klick(r, "[data-o]", el => {
+      if (KMD.gesperrt) return;
+      const o = KMD.opts[+el.dataset.o];
+      if (o === w) {
+        KMD.gesperrt = true; el.classList.add("richtig");
+        KMD.zeit = KMD.start ? ((performance.now() - KMD.start) / 1000).toFixed(1).replace(".", ",") + " s" : "–";
+        if (!KMD.fehler) KMD.serie++;
+        stand.textContent = `Reaktion: ${KMD.zeit} · Serie ${KMD.serie}`;
+        aufdecken();
+        const t = setTimeout(() => { naechstesKommando(); malen(); }, 1400);
+        aufraeumen.push(() => clearTimeout(t));
+      } else {
+        el.classList.add("falsch"); KMD.fehler = true; KMD.serie = 0;
+        stand.textContent = `Reaktion: ${KMD.zeit} · Serie ${KMD.serie}`;
+      }
+    });
+    if (!sicht && KMD.akt && KMD._auto !== KMD.akt) { KMD._auto = KMD.akt; const t = setTimeout(sprechen, 500); aufraeumen.push(() => clearTimeout(t)); }
+  });
+};
+
+// ---------- Lernkarten ----------
+const KA = { stapel: [], fertig: [], gesamt: 0, hinten: false };
+function starteKarten() {
+  const bis = (zielGurt() || { stufe: 10 }).stufe;
+  const l = D.techniken.filter(t => t.stufe <= bis).map(t => ({ ko: t.koreanisch, hg: t.hangul, aus: t.aussprache, de: t.deutsch, erk: t.beschreibung }))
+    .concat(D.begriffe.filter(w => w.stufe <= bis).map(w => ({ ko: w.koreanisch, hg: w.hangul, aus: w.aussprache, de: w.deutsch, erk: w.kategorie })));
+  Object.assign(KA, { stapel: mischen(l), fertig: [], gesamt: l.length, hinten: false });
+}
+SEITEN.karten = () => {
+  const z = zielGurt();
+  const c = KA.stapel[0];
+  const letzte = KA.fertig[KA.fertig.length - 1];
+  const zurueckLegen = letzte ? `<button class="text-link" id="undo" style="text-align:center">↶ Letzte Karte zurücklegen (${esc(letzte.ko)})</button>` : "";
+  let mitte;
+  if (!c) {
+    mitte = `<div class="karte" style="align-items:center;text-align:center;padding:24px"><span class="t-gross" style="font-size:26px;text-transform:uppercase">Alle gewusst!</span><span class="klein">${KA.gesamt} Karten geschafft. Stark!</span></div>
+      <button class="haupt-btn" id="neu">Nochmal von vorn</button>${zurueckLegen}`;
+  } else {
+    const karte = KA.hinten
+      ? `<button class="lernkarte hinten" id="karte"><span class="label" style="color:var(--hellgrau)">Antwort</span><span class="wort" style="font-size:26px">${esc(c.de)}</span>${c.erk ? `<span style="color:var(--hellgrau);font-size:15px;line-height:1.45">${esc(c.erk)}</span>` : ""}<b style="margin-top:12px">${esc(c.ko)}</b></button>`
+      : `<button class="lernkarte" id="karte"><span class="label">Was bedeutet?</span><span class="wort">${esc(c.ko)}</span><span class="hg">${esc(c.hg)}</span><span class="aus" style="font-size:16px">[${esc(c.aus)}]</span><span class="laut" data-ko="${esc(c.hg)}" role="button" aria-label="Aussprache anhören" style="margin-top:12px;width:52px;height:52px">${LAUT}</span><span class="mini" style="margin-top:12px">Tippen zum Umdrehen</span></button>`;
+    mitte = `${karte}<div class="zwei"><button class="btn-rand" id="nochmal">Nicht gewusst<br><span style="font-weight:600;font-size:13px">kommt wieder</span></button><button class="btn-gruen" id="gewusst">Gewusst ✓<br><span style="font-weight:600;font-size:13px">Karte fertig</span></button></div>${zurueckLegen}`;
+  }
+  const breite = KA.gesamt ? KA.fertig.length * 100 / KA.gesamt : 0;
+  setze(`<div class="seite">${kopf("Lernkarten", z ? "Alles bis " + z.name + " (" + z.grad + ")" : "Alle Gurte", `<b style="color:var(--hellgrau);font-variant-numeric:tabular-nums">${KA.fertig.length} / ${KA.gesamt}</b>`)}
+    <div class="leiste"><i style="width:${breite}%"></i></div><main class="inhalt">${mitte}</main></div>`, r => {
+    const k = r.querySelector("#karte");
+    if (k) k.onclick = () => { KA.hinten = !KA.hinten; malen(); };
+    const n = r.querySelector("#nochmal");
+    if (n) n.onclick = () => { const x = KA.stapel.shift(); KA.stapel.splice(Math.min(4, KA.stapel.length), 0, x); KA.hinten = false; malen(); };
+    const g = r.querySelector("#gewusst");
+    if (g) g.onclick = () => { KA.fertig.push(KA.stapel.shift()); KA.hinten = false; malen(); };
+    const u = r.querySelector("#undo");
+    if (u) u.onclick = () => { KA.stapel.unshift(KA.fertig.pop()); KA.hinten = false; malen(); };
+    const nu = r.querySelector("#neu");
+    if (nu) nu.onclick = () => { starteKarten(); malen(); };
+  });
+};
+
+// ---------- Quiz ----------
+const Q = { gurt: null, vorlagen: [], stapel: [], akt: null, gesperrt: false, fehler: false, serie: 0 };
+function dreiAndere(alle, richtig, key, gleich) {
+  const r = key(richtig), gesehen = new Set([r]), andere = [];
+  alle.forEach(x => { const k = key(x); if (!gesehen.has(k)) { gesehen.add(k); andere.push(x); } });
+  return mischen(andere.filter(gleich)).concat(mischen(andere.filter(x => !gleich(x)))).slice(0, 3);
+}
+const ant = (text, aus) => ({ text, aus });
+function frage(kat, aufgabe, wort, hangul, aus, richtig, falsch, ton) { return { kat, aufgabe, wort, hangul, aus, richtig, opts: mischen(falsch.concat([richtig])), ton }; }
+function starteQuiz(g) {
+  const v = [];
+  D.techniken.filter(t => t.stufe >= 1 && t.stufe <= g.stufe).forEach(t => v.push(() => {
+    const r = ant(t.koreanisch, t.aussprache);
+    return frage("Technik · " + t.kategorie, "Wie heißt auf Koreanisch?", t.deutsch, null, null, r, dreiAndere(D.techniken, t, x => x.koreanisch, x => x.kategorie === t.kategorie).map(x => ant(x.koreanisch, x.aussprache)), t.hangul);
+  }));
+  D.begriffe.filter(w => w.stufe >= 1 && w.stufe <= g.stufe).forEach(w => {
+    v.push(() => frage("Begriff · " + w.kategorie, "Was bedeutet?", w.koreanisch, w.hangul, w.aussprache, ant(w.deutsch), dreiAndere(D.begriffe, w, x => x.deutsch, x => x.kategorie === w.kategorie).map(x => ant(x.deutsch)), w.hangul));
+    v.push(() => frage("Begriff · " + w.kategorie, "Wie heißt auf Koreanisch?", w.deutsch, null, null, ant(w.koreanisch, w.aussprache), dreiAndere(D.begriffe, w, x => x.koreanisch, x => x.kategorie === w.kategorie).map(x => ant(x.koreanisch, x.aussprache)), w.hangul));
+  });
+  D.formen.filter(f => f.stufe >= 1 && f.stufe <= g.stufe).forEach(f => {
+    v.push(() => frage("Poomsae", "Wofür steht diese Form?", f.name, f.hangul, f.aussprache, ant(f.symbol), dreiAndere(D.formen, f, x => x.symbol, () => true).map(x => ant(x.symbol)), f.hangul));
+    v.push(() => { const gg = D.guertel[f.stufe]; return frage("Poomsae", "Welche Form gehört zur Prüfung zum " + gg.grad + "?", gg.name, null, null, ant(f.name, f.aussprache), dreiAndere(D.formen, f, x => x.name, () => true).map(x => ant(x.name, x.aussprache)), f.hangul); });
+  });
+  D.wissen.filter(w => w.stufe <= g.stufe).forEach(w => v.push(() => frage("Wissen", "Wissensfrage", w.frage, null, null, ant(w.richtig), w.falsch.map(x => ant(x)), "")));
+  Object.assign(Q, { gurt: g, vorlagen: v, stapel: [], akt: null, serie: 0 });
+}
+function naechsteFrage() {
+  if (!Q.stapel.length) Q.stapel = mischen(Q.vorlagen);
+  let f = Q.stapel.shift()();
+  if (Q.akt && f.wort === Q.akt.wort) { if (!Q.stapel.length) Q.stapel = mischen(Q.vorlagen); f = Q.stapel.shift()(); }
+  Q.akt = f; Q.gesperrt = false; Q.fehler = false;
+}
+SEITEN.quiz = () => {
+  const g = Q.gurt;
+  if (!Q.akt) naechsteFrage();
+  const f = Q.akt;
+  setze(`<div class="seite">${kopf("Quiz · " + g.name, null, gurtMuster(g, 40, 14), false)}
+    <div style="background:var(--dunkel);color:var(--hellgrau);font-size:13px;padding:0 20px 12px" id="serie">Richtig in Folge: ${Q.serie}</div>
+    <main class="inhalt">
+      <div class="karte frage"><span class="kat">${esc(f.kat)}</span><span class="klein" style="font-size:16px">${esc(f.aufgabe)}</span>
+        <span class="wort ${f.wort.length > 30 ? "lang" : ""}">${esc(f.wort)}</span>
+        ${f.hangul ? `<span class="aus"><span class="hangul">${esc(f.hangul)}</span> &nbsp;[${esc(f.aus || "")}]</span>${lautBtn(f.hangul)}` : ""}</div>
+      <div class="quiz-opts">${f.opts.map((o, i) => `<button class="opt-btn" data-o="${i}">${esc(o.text)}${o.aus ? `<small>[${esc(o.aus)}]</small>` : ""}</button>`).join("")}</div>
+    </main>
+    <div class="unten"><button class="haupt-btn" style="background:transparent;color:var(--rot);border:2px solid var(--rot)" data-zurueck>Beenden</button></div></div>`, r => {
+    const serie = r.querySelector("#serie");
+    klick(r, "[data-o]", el => {
+      if (Q.gesperrt) return;
+      const o = f.opts[+el.dataset.o];
+      if (o === f.richtig) {
+        Q.gesperrt = true; el.classList.add("richtig");
+        if (!Q.fehler) Q.serie++;
+        serie.textContent = "Richtig in Folge: " + Q.serie;
+        if (f.ton) sprich(f.ton);
+        const t = setTimeout(() => { naechsteFrage(); malen(); }, 1300);
+        aufraeumen.push(() => clearTimeout(t));
+      } else {
+        el.classList.add("falsch"); Q.fehler = true; Q.serie = 0;
+        serie.textContent = "Richtig in Folge: " + Q.serie;
+      }
+    });
+  });
+};
+
+// =====================================================================
+// Kyorugi – Kampfspiel (eigene Grafik auf Canvas)
+// =====================================================================
+const POSE = o => Object.assign({ lean: 6, sF: 45, eF: 95, sB: 20, eB: 120, hF: 18, kF: -8, hB: -22, kB: -4, dx: 0, dy: 0 }, o);
+const P = {
+  HOCH: POSE({}), TIEF: POSE({ sF: 25, eF: 70, sB: 10, eB: 80 }),
+  FAUST: POSE({ lean: 16, sB: 88, eB: 4, sF: 30, eF: 110, dx: 6 }),
+  KOERPER: POSE({ lean: -28, hB: 92, kB: 0, hF: -6, kF: 0, sF: 30, eF: 60, sB: -20, eB: 40 }),
+  KOPF: POSE({ lean: -42, hB: 138, kB: 0, hF: -8, kF: 0, sF: 20, eF: 50, sB: -30, eB: 30 }),
+  AXT: POSE({ lean: -20, hB: 160, kB: 0, hF: -4, kF: 0, sF: 30, eF: 60, sB: -10, eB: 40 }),
+  DREHK: POSE({ lean: 32, hB: -96, kB: 0, hF: 8, kF: 0, sF: 60, eF: 60, sB: 40, eB: 60 }),
+  DREHKOPF: POSE({ lean: 45, hB: -140, kB: 0, hF: 10, kF: 0, sF: 70, eF: 50, sB: 50, eB: 50 }),
+  BLOCK: POSE({ lean: -4, sF: 70, eF: 70, sB: 50, eB: 100, dx: -3 }),
+  TREFFER: POSE({ lean: -22, sF: 10, eF: 40, sB: -10, eB: 40, dx: -10, hF: 10, kF: -15, hB: -30, kB: 0 }),
+  AUSWEICHEN: POSE({ lean: -10, dx: -26 })
+};
+const glatt = x => x * x * (3 - 2 * x);
+const mische = (a, b, f) => { const o = {}; for (const k in a) o[k] = a[k] + (b[k] - a[k]) * f; return o; };
+
+class Kaempfer {
+  constructor(farbe, blick) { this.farbe = farbe; this.blick = blick; this.x = 0; this.zielX = 0; this.basis = P.HOCH; this.ziel = null; }
+  aktion(p, dauer = 600, dreh = false, vorschub = 0) { this.ziel = Object.assign({}, p, { dx: p.dx + vorschub }); this.dreh = dreh; this.dauer = dauer; this.start = performance.now(); }
+  jetzt(t) {
+    if (!this.ziel) return [this.basis, false];
+    const p = (t - this.start) / this.dauer;
+    if (p >= 1) { this.ziel = null; return [this.basis, false]; }
+    const f = p < .35 ? glatt(p / .35) : p < .6 ? 1 : 1 - glatt((p - .6) / .4);
+    return [mische(this.basis, this.ziel, f), this.dreh && f > .3];
+  }
+}
+
+class KampfBild {
+  constructor(huelle) {
+    this.c = document.createElement("canvas");
+    this.c.setAttribute("aria-label", "Kampffläche: Hong (rot) gegen Chung (blau)");
+    this.c.setAttribute("role", "img");
+    huelle.appendChild(this.c);
+    this.g = this.c.getContext("2d");
+    this.hong = new Kaempfer("#D7192A", 1);
+    this.chung = new Kaempfer("#1F5FD1", -1);
+    this.anzeigen = []; this.ansageText = ""; this.ansageStart = 0; this.nah = false;
+    this.groesse(); this.hong.x = this.hong.zielX; this.chung.x = this.chung.zielX;
+    this.ro = new ResizeObserver(() => this.groesse()); this.ro.observe(huelle);
+    this.laeuft = true;
+    const schleife = () => { if (!this.laeuft) return; this.zeichnen(); requestAnimationFrame(schleife); };
+    requestAnimationFrame(schleife);
+  }
+  stopp() { this.laeuft = false; this.ro.disconnect(); }
+  groesse() {
+    const r = this.c.parentElement.getBoundingClientRect(), d = window.devicePixelRatio || 1;
+    this.w = r.width; this.h = r.height;
+    this.c.width = Math.round(this.w * d); this.c.height = Math.round(this.h * d);
+    this.g.setTransform(d, 0, 0, d, 0, 0);
+    this.s = Math.min(this.h / 160, this.w / 230); this.boden = this.h * .86;
+    this.positionen();
+  }
+  positionen() { const ab = (this.nah ? 52 : 90) * this.s; this.hong.zielX = this.w / 2 - ab / 2; this.chung.zielX = this.w / 2 + ab / 2; }
+  setzeAbstand(n) { this.nah = n; this.positionen(); }
+  setzeDeckung(hoch) { this.chung.basis = hoch ? P.HOCH : P.TIEF; }
+  anzeige(text, farbe, ueberChung, kopf, gross = true) { const k = ueberChung ? this.chung : this.hong; this.anzeigen.push({ text, farbe, k, kopf, gross, start: performance.now() }); }
+  ansage(t) { this.ansageText = t; this.ansageStart = performance.now(); }
+  zeichnen() {
+    const g = this.g, w = this.w, h = this.h, s = this.s, b = this.boden, t = performance.now();
+    const gr = g.createLinearGradient(0, 0, 0, b); gr.addColorStop(0, "#26262B"); gr.addColorStop(1, "#141416");
+    g.fillStyle = gr; g.fillRect(0, 0, w, b);
+    g.fillStyle = "#1D4E9E"; g.fillRect(0, b, w, h - b);
+    g.fillStyle = "#F2C500"; g.fillRect(w * .06, b, w * .88, 3 * s);
+    g.fillStyle = "#D7192A"; g.fillRect(0, b, w * .06, h); g.fillRect(w * .94, b, w * .06, h);
+    g.strokeStyle = "rgba(255,255,255,.5)"; g.lineWidth = 1.5 * s; g.beginPath(); g.moveTo(w / 2, b + 6 * s); g.lineTo(w / 2, h); g.stroke();
+    for (const k of [this.hong, this.chung]) { k.x += Math.abs(k.zielX - k.x) > .5 ? (k.zielX - k.x) * .18 : k.zielX - k.x; }
+    this.figur(this.hong, t); this.figur(this.chung, t);
+    g.textAlign = "center";
+    this.anzeigen = this.anzeigen.filter(a => {
+      const p = (t - a.start) / 1100; if (p >= 1) return false;
+      const y = b - (a.kopf ? 112 : 70) * s - p * 30 * s;
+      g.font = `700 ${(a.gross ? 26 : 16) * s}px Oswald, "Arial Narrow", sans-serif`;
+      g.globalAlpha = (1 - p) * .6; g.fillStyle = "#000"; g.fillText(a.text, a.k.x + 1.5 * s, y + 1.5 * s);
+      g.globalAlpha = 1 - p; g.fillStyle = a.farbe; g.fillText(a.text, a.k.x, y);
+      g.globalAlpha = 1; return true;
+    });
+    if (this.ansageText) {
+      const p = (t - this.ansageStart) / 1500;
+      if (p < 1) {
+        g.globalAlpha = p < .7 ? 1 : (1 - p) / .3;
+        g.font = `700 ${Math.min(28 * s, w / 8)}px Oswald, "Arial Narrow", sans-serif`;
+        g.shadowColor = "#000"; g.shadowBlur = 8 * s; g.fillStyle = "#fff"; g.fillText(this.ansageText, w / 2, h * .3);
+        g.shadowBlur = 0; g.globalAlpha = 1;
+      } else this.ansageText = "";
+    }
+  }
+  figur(k, t) {
+    const g = this.g, s = this.s;
+    const [p, gedreht] = k.jetzt(t);
+    const bl = gedreht ? -k.blick : k.blick;
+    const pt = (v, a, l) => { const r = a * Math.PI / 180; return [v[0] + Math.sin(r) * l * s * bl, v[1] + Math.cos(r) * l * s]; };
+    const L = (a, e, c, wd) => { g.strokeStyle = c; g.lineWidth = wd * s; g.lineCap = "round"; g.beginPath(); g.moveTo(a[0], a[1]); g.lineTo(e[0], e[1]); g.stroke(); };
+    const C = (q, r, c) => { g.fillStyle = c; g.beginPath(); g.arc(q[0], q[1], r * s, 0, Math.PI * 2); g.fill(); };
+    const hu = [k.x + p.dx * s * k.blick, this.boden - 45 * s + p.dy * s];
+    g.fillStyle = "rgba(0,0,0,.25)"; g.beginPath(); g.ellipse(hu[0], this.boden + 1 * s, 18 * s, 3 * s, 0, 0, Math.PI * 2); g.fill();
+    const kB = pt(hu, p.hB, 23), fB = pt(kB, p.hB + p.kB, 22), kF = pt(hu, p.hF, 23), fF = pt(kF, p.hF + p.kF, 22);
+    L(hu, kF, "#B9B9C2", 8); L(kF, fF, "#B9B9C2", 7); L(fF, pt(fF, p.hF + p.kF + 90, 4), k.farbe, 4);
+    const o = 180 - p.lean, sch = pt(hu, o, 28), hals = pt(hu, o, 32), kopf = pt(hu, o, 42);
+    const eB = pt(sch, p.sB, 14), hB = pt(eB, p.sB + p.eB, 13); L(sch, eB, "#B9B9C2", 6.5); L(eB, hB, "#B9B9C2", 6); C(hB, 3.6, k.farbe);
+    L(hu, hals, "#F4F4F6", 15); L(pt(hu, o, 6), pt(hu, o, 25), k.farbe, 18);
+    const m = pt(hu, o, 15); g.strokeStyle = "#fff"; g.lineWidth = 1.2 * s; g.beginPath(); g.arc(m[0], m[1], 4 * s, 0, Math.PI * 2); g.stroke();
+    L(pt(hu, o, 2), pt(hu, o, 3), "#141416", 16);
+    L(hu, kB, "#F4F4F6", 8.5); L(kB, fB, "#F4F4F6", 7.5); L(fB, pt(fB, p.hB + p.kB + 90, 4), k.farbe, 4.5);
+    C(kopf, 9.5, k.farbe); C([kopf[0] + 3.5 * s * bl, kopf[1] + s], 5.5, "#E9C29E"); C([kopf[0] + 6 * s * bl, kopf[1] - .5 * s], .9, "#141416");
+    const eF = pt(sch, p.sF, 14), hF = pt(eF, p.sF + p.eF, 13); L(sch, eF, "#F4F4F6", 7); L(eF, hF, "#F4F4F6", 6.5); C(hF, 3.8, k.farbe);
+  }
+}
+
+const TECH = [
+  { name: "Momtong Jireugi", hg: "몸통 지르기", aus: "Mom-tong dschi-rü-gi", de: "Fauststoß zum Körper", p: 1, kopf: false, dreh: false, pose: P.FAUST, nah: .85, mittel: .25, art: 0 },
+  { name: "Momtong Dollyeo-chagi", hg: "몸통 돌려차기", aus: "Mom-tong dol-ljo tscha-gi", de: "Rundtritt zum Körper", p: 2, kopf: false, dreh: false, pose: P.KOERPER, nah: .5, mittel: .8, art: 1 },
+  { name: "Eolgul Dollyeo-chagi", hg: "얼굴 돌려차기", aus: "Ol-gul dol-ljo tscha-gi", de: "Rundtritt zum Kopf", p: 3, kopf: true, dreh: false, pose: P.KOPF, nah: .3, mittel: .6, art: 2 },
+  { name: "Naeryeo-chagi", hg: "내려차기", aus: "Nä-rjo tscha-gi", de: "Abwärtstritt zum Kopf", p: 3, kopf: true, dreh: false, pose: P.AXT, nah: .55, mittel: .4, art: 2 },
+  { name: "Dwi-chagi", hg: "뒤차기", aus: "Dwi tscha-gi", de: "Gedrehter Rückwärtstritt zum Körper", p: 4, kopf: false, dreh: true, pose: P.DREHK, nah: .35, mittel: .6, art: 3 },
+  { name: "Dwi-huryeo-chagi", hg: "뒤후려차기", aus: "Dwi hu-rjo tscha-gi", de: "Gedrehter Hakentritt zum Kopf", p: 5, kopf: true, dreh: true, pose: P.DREHKOPF, nah: .2, mittel: .4, art: 3 }
+];
+const SEK = 60;
+
+const K = {
+  bild: null, punkte: [0, 0], gj: [0, 0], siege: [0, 0], art: [[0, 0, 0, 0], [0, 0, 0, 0]], runde: 1, zehntel: SEK * 10,
+  laeuft: false, modus: 5, nah: false, hoch: true, sperre: 0, lage: 0, angriffAb: 0, gjAb: 0, abwehrEnde: 0, angriff: null,
+  ergebnis: "", meldung: "", meldungBis: 0, timer: [], takt: 0,
+  neu() { this.siege = [0, 0]; this.runde = 1; this.modus = 5; this.laeuft = false; this.punkte = [0, 0]; this.gj = [0, 0]; this.zehntel = SEK * 10; this.meldung = ""; },
+  spaeter(fn, ms) { const id = setTimeout(fn, ms); this.timer.push(id); },
+  stopp() { this.timer.forEach(clearTimeout); this.timer = []; clearInterval(this.takt); this.takt = 0; },
+  jetzt: () => performance.now()
+};
+
+function starteRunde() {
+  K.stopp();
+  K.punkte = [0, 0]; K.gj = [0, 0]; K.art = [[0, 0, 0, 0], [0, 0, 0, 0]]; K.zehntel = SEK * 10;
+  K.laeuft = false; K.modus = 0; K.nah = false; K.hoch = true; K.meldung = "";
+  if (K.bild) { K.bild.setzeAbstand(false); K.bild.setzeDeckung(true); K.bild.ansage(K.runde + ". RUNDE"); }
+  kampfAnzeige(); steuerung(); tipp();
+  K.spaeter(() => { K.bild && K.bild.ansage("JOON-BI"); sprich("준비"); }, 1300);
+  K.spaeter(() => {
+    K.bild && K.bild.ansage("SHI-JAK!"); sprich("시작");
+    const t = K.jetzt();
+    K.lage = t + 2500; K.angriffAb = t + 4500 + zz(2500); K.gjAb = t + 15000 + zz(10000); K.sperre = 0;
+    K.laeuft = true; K.modus = 1; steuerung(); tipp();
+    K.takt = setInterval(kampfTakt, 100);
+  }, 2600);
+}
+
+function kampfTakt() {
+  if (!K.laeuft) return;
+  const t = K.jetzt();
+  if (K.modus !== 2) K.zehntel--;
+  if (K.zehntel % 10 === 0) kampfAnzeige();
+  if (K.modus === 1 && t > K.lage && t > K.sperre) {
+    K.nah = Math.random() < .4; K.hoch = Math.random() < .5;
+    K.bild.setzeAbstand(K.nah); K.bild.setzeDeckung(K.hoch);
+    K.lage = t + 2200 + zz(1800); tipp();
+  }
+  if (K.modus === 1 && t > K.angriffAb && t > K.sperre) chungGreiftAn();
+  if (K.modus === 2) {
+    const bar = document.getElementById("abwehrZeit");
+    if (bar) bar.style.width = Math.max(0, (K.abwehrEnde - t) / 1700 * 100) + "%";
+    if (t > K.abwehrEnde) abwehr(-1, "");
+  }
+  if (K.modus === 1 && t > K.gjAb && t > K.sperre) {
+    const gr = ["über die Begrenzungslinie getreten", "den Gegner festgehalten", "dem Kampf ausgewichen (Passivität)", "unter die Gürtellinie getreten"];
+    gamJeom(1, gr[zz(gr.length)]);
+    K.gjAb = t + 16000 + zz(12000);
+  }
+  if (K.meldung && t > K.meldungBis) { K.meldung = ""; tipp(); }
+  if (!K.laeuft) return;
+  if (K.zehntel <= 0) zeitUm();
+}
+
+function meldung(s) { K.meldung = s; K.meldungBis = K.jetzt() + 2200; tipp(); }
+function tipp() {
+  const el = document.getElementById("kTipp"); if (!el) return;
+  if (K.meldung) { el.textContent = K.meldung; return; }
+  el.textContent = K.modus === 1 ? (K.nah ? "Nah dran → Jireugi oder Naeryeo-chagi" : "Mittlere Distanz → Rund- und Drehtritte") + " · " + (K.hoch ? "Deckung oben → Körper offen" : "Deckung unten → Kopf offen!")
+    : K.modus === 2 ? "Chung greift an – reagiere schnell!" : K.modus === 0 ? "Gleich geht es los …" : "";
+}
+function punkte(wer, p, art) {
+  K.punkte[wer] += p; if (art >= 0) K.art[wer][art] += p;
+  kampfAnzeige();
+  if (K.punkte[wer] - K.punkte[1 - wer] >= 12) rundeEnde(wer, "12 Punkte Vorsprung");
+}
+function gamJeom(wer, grund) {
+  K.gj[wer]++;
+  const name = wer === 0 ? "Hong (du)" : "Chung", andere = wer === 0 ? "Chung" : "Hong";
+  K.bild.ansage("GAM-JEOM"); sprich("감점");
+  meldung(`Gam-jeom für ${name}: ${grund} → +1 Punkt für ${andere}`);
+  K.bild.anzeige("+1", wer === 0 ? "#7FB2FF" : "#FF8A94", wer === 0, false);
+  if (K.gj[wer] >= 5) { kampfAnzeige(); rundeEnde(1 - wer, `5 Gam-jeom für ${name}`); return; }
+  punkte(1 - wer, 1, -1);
+}
+const vorschubFuer = tc => K.nah ? (tc.art === 0 ? 0 : 6) : (tc.kopf ? 42 : 32);
+function angriff(tc) {
+  const v = K.bild, t = K.jetzt();
+  if (!K.laeuft || K.modus !== 1 || t < K.sperre) return;
+  K.sperre = t + 950;
+  let ch = K.nah ? tc.nah : tc.mittel;
+  ch *= tc.kopf ? (K.hoch ? .4 : 1) : tc.art === 0 ? (K.hoch ? 1 : .75) : (K.hoch ? 1 : .6);
+  v.hong.aktion(tc.pose, 650, tc.dreh, vorschubFuer(tc));
+  sprich(tc.hg);
+  const treffer = Math.random() < ch;
+  K.spaeter(() => {
+    if (!K.laeuft) return;
+    if (treffer) {
+      v.chung.aktion(P.TREFFER, 520); v.anzeige("+" + tc.p, "#FFD54A", true, tc.kopf);
+      meldung(`Treffer! ${tc.name} = ${tc.p} ${punktWort(tc.p)}`);
+      punkte(0, tc.p, tc.art);
+    } else {
+      v.chung.aktion(P.BLOCK, 520); v.anzeige("Geblockt", "#fff", true, tc.kopf, false);
+      if (tc.dreh && Math.random() < .4) {
+        K.sperre = K.jetzt() + 1500;
+        K.spaeter(() => {
+          if (!K.laeuft) return;
+          v.chung.aktion(P.KOERPER, 620, false, K.nah ? 6 : 32);
+          K.spaeter(() => {
+            if (!K.laeuft) return;
+            v.hong.aktion(P.TREFFER, 520); v.anzeige("+2", "#7FB2FF", false, false);
+            meldung("Konter von Chung! Drehtritte bringen viele Punkte, sind aber riskant.");
+            punkte(1, 2, 1);
+          }, 220);
+        }, 380);
+      } else {
+        meldung(tc.kopf && K.hoch ? "Die Deckung war oben – Kopftritte werden leicht geblockt." : "Nicht getroffen – achte auf Abstand und Deckung.");
+      }
+    }
+  }, 230);
+}
+function chungGreiftAn() {
+  const r = zz(100);
+  K.angriff = r < 25 ? TECH[0] : r < 75 ? TECH[1] : TECH[2];
+  K.modus = 2; K.abwehrEnde = K.jetzt() + 1700;
+  steuerung(); tipp();
+}
+function abwehr(code, grund) {
+  const v = K.bild, a = K.angriff;
+  if (!a || K.modus !== 2) return;
+  K.modus = 1; K.angriff = null; K.sperre = K.jetzt() + 1000; K.angriffAb = K.jetzt() + 4000 + zz(3500);
+  steuerung();
+  v.chung.aktion(a.pose, 650, false, vorschubFuer(a));
+  const getroffen = text => K.spaeter(() => {
+    if (!K.laeuft) return;
+    v.hong.aktion(P.TREFFER, 520); v.anzeige("+" + a.p, "#7FB2FF", false, a.kopf);
+    meldung(`${text} Chung trifft mit ${a.name} = ${a.p} ${punktWort(a.p)}.`);
+    punkte(1, a.p, a.art);
+  }, 230);
+  if (code === 0) { if (zz(100) < 85) { v.hong.aktion(P.BLOCK, 600); v.anzeige("Makki!", "#fff", false, a.kopf, false); meldung("Gut geblockt! Makki = Abwehr."); } else getroffen("Block zu spät."); }
+  else if (code === 1) { if (zz(100) < 70) { v.hong.aktion(P.AUSWEICHEN, 650); meldung("Ausgewichen – aber bleib innerhalb der Linie!"); } else getroffen("Nicht weit genug ausgewichen."); }
+  else if (code === 2) {
+    const d = TECH[4];
+    v.hong.aktion(d.pose, 650, true, K.nah ? 6 : 32); sprich(d.hg);
+    if (zz(100) < 50) K.spaeter(() => { if (!K.laeuft) return; v.chung.aktion(P.TREFFER, 520); v.anzeige("+4", "#FFD54A", true, false); meldung("Konter! Dwi-chagi in den Angriff = 4 Punkte."); punkte(0, 4, 3); }, 260);
+    else getroffen("Konter zu spät.");
+  } else if (code === 3) gamJeom(0, grund);
+  else getroffen("Zu langsam reagiert.");
+}
+function zeitUm() {
+  const [h, c] = K.punkte;
+  if (h > c) return rundeEnde(0, `mehr Punkte (${h} : ${c})`);
+  if (c > h) return rundeEnde(1, `mehr Punkte (${c} : ${h})`);
+  const namen = ["Drehtritte", "Kopftritte", "Körpertritte", "Fauststöße"], folge = [3, 2, 1, 0];
+  for (let i = 0; i < 4; i++) { const a = folge[i]; if (K.art[0][a] !== K.art[1][a]) return rundeEnde(K.art[0][a] > K.art[1][a] ? 0 : 1, "Gleichstand – Überlegenheit durch mehr Punkte aus " + namen[i]); }
+  if (K.gj[0] !== K.gj[1]) return rundeEnde(K.gj[0] < K.gj[1] ? 0 : 1, "Gleichstand – weniger Gam-jeom");
+  rundeEnde(zz(2), "Gleichstand – Entscheidung der Kampfrichter");
+}
+function rundeEnde(sieger, grund) {
+  if (K.modus !== 1 && K.modus !== 2) return;
+  K.laeuft = false; K.stopp();
+  K.siege[sieger]++;
+  K.bild.ansage("KEU-MAN"); sprich("그만");
+  K.ergebnis = `${K.runde}. Runde: ${sieger === 0 ? "Hong (du)" : "Chung"} gewinnt\n${grund}`;
+  K.meldung = "";
+  if (K.siege[sieger] >= 2) {
+    K.modus = 4;
+    K.spaeter(() => { K.bild && K.bild.ansage(sieger === 0 ? "HONG SEUNG!" : "CHUNG SEUNG!"); sprich(sieger === 0 ? "홍 승" : "청 승"); }, 1400);
+  } else K.modus = 3;
+  kampfAnzeige(); steuerung(); tipp();
+}
+function kampfAnzeige() {
+  const z = document.getElementById("kZeit"); if (!z) return;
+  const s = Math.ceil(K.zehntel / 10);
+  z.textContent = Math.floor(s / 60) + ":" + String(s % 60).padStart(2, "0");
+  document.getElementById("kRunde").textContent = "Runde " + K.runde;
+  for (let i = 0; i < 2; i++) {
+    document.getElementById("kP" + i).textContent = K.punkte[i];
+    document.getElementById("kI" + i).textContent = "GJ " + K.gj[i] + " · " + "●".repeat(K.siege[i]) + "○".repeat(Math.max(0, 2 - K.siege[i]));
+  }
+}
+function steuerung() {
+  const el = document.getElementById("kSteuer"); if (!el) return;
+  if (K.modus === 1) {
+    el.innerHTML = `<div class="k-gitter">${TECH.map((tc, i) => `<button class="k-btn ${tc.dreh ? "dreh" : ""}" data-t="${i}">${esc(tc.name)}<small>${tc.p} ${punktWort(tc.p)} · ${tc.kopf ? "Kopf" : "Körper"}${tc.dreh ? " · gedreht" : ""}</small></button>`).join("")}</div>`;
+    klick(el, "[data-t]", b => angriff(TECH[+b.dataset.t]));
+  } else if (K.modus === 2) {
+    const verboten = [["Festhalten", "Festhalten oder Klammern ist verboten"], ["Wegschieben", "Schieben ist verboten"], ["Hinter die Linie flüchten", "Über die Begrenzungslinie treten ist verboten"], ["Tritt unter die Gürtellinie", "Tritte unter die Gürtellinie sind verboten"]][zz(4)];
+    const opts = mischen([["Makki – blocken", 0, ""], ["Ausweichen – Schritt zurück", 1, ""], ["Konter: Dwi-chagi (4)", 2, ""], [verboten[0], 3, verboten[1]]]);
+    el.innerHTML = `<div class="t-gross" style="text-align:center;text-transform:uppercase;letter-spacing:.04em">Chung greift an!</div><div class="abwehr-zeit" id="abwehrZeit" style="width:100%"></div>
+      <div class="k-gitter">${opts.map((o, i) => `<button class="k-btn" style="min-height:56px" data-a="${i}">${esc(o[0])}</button>`).join("")}</div>`;
+    klick(el, "[data-a]", b => { const o = opts[+b.dataset.a]; abwehr(o[1], o[2]); });
+  } else if (K.modus === 3 || K.modus === 4) {
+    const du = K.siege[0] >= 2;
+    el.innerHTML = `<div class="k-karte"><b style="white-space:pre-line;font-size:16px">${esc(K.ergebnis)}</b>
+      ${K.modus === 4 ? `<span class="t-gross" style="font-size:22px;color:${du ? "var(--gold)" : "#7FB2FF"}">${du ? "Du gewinnst – Hong seung!" : "Chung gewinnt – Chung seung!"}</span><span class="klein" style="color:var(--hellgrau)">Runden: ${K.siege[0]} : ${K.siege[1]}</span>`
+        : `<span class="klein" style="color:var(--hellgrau)">Stand nach Runden: ${K.siege[0]} : ${K.siege[1]} · Wer zuerst 2 Runden gewinnt, gewinnt den Kampf.</span>`}</div>
+      <button class="haupt-btn" id="weiter">${K.modus === 3 ? "Nächste Runde" : "Neuer Kampf"}</button>`;
+    el.querySelector("#weiter").onclick = () => { if (K.modus === 3) K.runde++; else K.neu(); starteRunde(); };
+  } else if (K.modus === 5) {
+    el.innerHTML = `<div class="k-karte"><span style="font-size:15px;line-height:1.45">Du kämpfst als HONG (rot) gegen CHUNG (blau). Tippe die passende Technik – achte auf Abstand und Deckung. Greift Chung an, musst du schnell reagieren.</span><span class="klein" style="color:var(--hellgrau)">3 Runden à ${SEK} Sekunden · wer 2 Runden gewinnt, gewinnt den Kampf.</span></div>
+      <button class="haupt-btn" id="los">Kampf beginnen</button><button class="text-link" id="regeln" style="color:#fff;text-align:center">Punkte &amp; Regeln ansehen ›</button>`;
+    el.querySelector("#los").onclick = starteRunde;
+    el.querySelector("#regeln").onclick = () => zeige("regeln");
+  } else {
+    el.innerHTML = `<div class="klein" style="text-align:center;padding:24px 0;color:var(--hellgrau);font-weight:700">Bereit machen …</div>`;
+  }
+}
+SEITEN.kampf = () => {
+  const tafel = i => `<div class="seite-p ${i ? "chung" : "hong"}"><div class="nm">${i ? "CHUNG" : "HONG · DU"}</div><div class="pk" id="kP${i}">0</div><div class="inf" id="kI${i}"></div></div>`;
+  setze(`<div class="seite dunkle-seite" style="height:100vh;height:100dvh;min-height:560px">
+    ${kopf("Kyorugi", null, '<button class="rund-btn" id="regelnBtn" aria-label="Punkte und Regeln">?</button>', false)}
+    <div class="tafel">${tafel(0)}<div class="mitte"><div class="zeit" id="kZeit">1:00</div><div class="klein" id="kRunde">Runde 1</div></div>${tafel(1)}</div>
+    <div id="kampfflaeche"></div><div class="k-tipp" id="kTipp"></div><div class="k-steuer" id="kSteuer"></div></div>`, r => {
+    r.querySelector("#regelnBtn").onclick = () => zeige("regeln");
+  });
+  K.bild = new KampfBild(document.getElementById("kampfflaeche"));
+  K.bild.setzeAbstand(K.nah); K.bild.setzeDeckung(K.hoch);
+  aufraeumen.push(() => { K.stopp(); if (K.bild) K.bild.stopp(); K.bild = null; });
+  kampfAnzeige(); steuerung(); tipp();
+  if (K.laeuft) K.takt = setInterval(kampfTakt, 100);
+  else if (K.modus === 0) starteRunde();
+};
+SEITEN.regeln = () => {
+  const kmd = [["B008", "Joon-bi", "Bereitmachen"], ["B009", "Shi-jak", "Beginn"], ["E13", "Gallyeo", "Trennen / Unterbrechen"], ["E14", "Gyesok", "Weiterkämpfen"], ["B010", "Geu-man", "Ende der Runde"], ["B041", "Gam-jeom", "Strafpunkt"], ["E11", "Seung", "Sieg – z. B. „Hong seung“"]];
+  setze(`<div class="seite">${kopf("Punkte & Regeln", "Olympischer Zweikampf (Kyorugi)")}<main class="inhalt">
+    <div class="label">Punkte</div>${TECH.map(tc => eintrag(tc.name, tc.hg, tc.aus, `${tc.de} · ${tc.p} ${punktWort(tc.p)}`)).join("")}
+    <div class="karte"><span class="label">Gam-jeom (Strafpunkt)</span><span style="font-size:15px">Jeder Gam-jeom gibt dem Gegner 1 Punkt. Beispiele:</span>
+      <ul class="liste"><li>über die Begrenzungslinie treten</li><li>Festhalten, Klammern, Schieben</li><li>Tritte unter die Gürtellinie</li><li>Schlag mit der Hand zum Kopf</li><li>Kampf vermeiden oder verzögern</li><li>Angriff auf einen Gegner, der am Boden liegt</li></ul></div>
+    <div class="karte"><span class="label">Kampfablauf</span><ul class="liste">
+      <li>3 Runden à 2 Minuten, 1 Minute Pause (im Spiel: ${SEK} Sekunden).</li>
+      <li>Jede Runde wird einzeln gewertet – wer zuerst 2 Runden gewinnt, gewinnt den Kampf.</li>
+      <li>12 Punkte Vorsprung beenden die Runde sofort.</li>
+      <li>5 Gam-jeom in einer Runde: Runde verloren.</li>
+      <li>Gleichstand: Überlegenheit entscheidet – zuerst zählen Punkte aus Drehtritten, dann Kopf-, Körpertritte und Fauststöße.</li></ul></div>
+    <div class="label" style="margin-top:6px">Kommandos des Kampfrichters</div>
+    ${kmd.map(([id, ko, de]) => { const w = D.begriffe.find(x => x.id === id); return eintrag(w ? w.koreanisch : ko, w ? w.hangul : "", w ? w.aussprache : ko, de); }).join("")}
+    <p class="mini">Vereinfacht nach den Wettkampfregeln von World Taekwondo (olympisches Taekwondo). Im echten Kampf zählen elektronische Westen und Kopfschutz (PSS) die Treffer. Regeln ändern sich gelegentlich – im Zweifel gilt, was Trainer und Kampfrichter sagen.</p>
+  </main></div>`);
+};
+
+// Start
+verlauf.push(["start"]);
+malen();
+</script>
+
+</body>
+</html>
