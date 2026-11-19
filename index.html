@@ -210,6 +210,59 @@ details.ablauf[open] summary::before { content: "▾ "; }
 .abwehr-zeit { height: 6px; border-radius: 3px; background: var(--rot); margin: 0 auto; transition: width .1s linear; }
 
 .toast { position: fixed; left: 50%; bottom: calc(24px + env(safe-area-inset-bottom, 0px)); transform: translateX(-50%); max-width: min(440px, calc(100% - 32px)); background: var(--dunkel); color: #fff; padding: 12px 16px; border-radius: 10px; font-size: 14px; box-shadow: 0 4px 14px rgba(0,0,0,.35); z-index: 50; }
+
+/* ---------- Computer & Tablet: volle Breite, aufgeteilt ---------- */
+.technik, .t-karten, .t-info { display: flex; flex-direction: column; gap: 10px; }
+@media (min-width: 900px) {
+  #app { max-width: 1240px; }
+  .kopf, .start-kopf { padding-left: max(32px, env(safe-area-inset-left, 0px)); padding-right: max(32px, env(safe-area-inset-right, 0px)); }
+  .inhalt, .unten, .k-tipp, .k-steuer, .tafel { padding-left: max(32px, env(safe-area-inset-left, 0px)); padding-right: max(32px, env(safe-area-inset-right, 0px)); }
+  .inhalt { padding-block: 24px 32px; gap: 14px; }
+  .h-titel { font-size: 26px; }
+  .reiter { margin: 14px -32px -16px; padding: 0 20px; }
+
+  .start-kopf { padding-block: 32px 30px; gap: 14px; }
+  .logos { max-width: 980px; }
+  .logos img { width: 120px; height: 120px; }
+  .vname { font-size: 34px; }
+  .logos .klein { font-size: 16px !important; }
+  .spruch { font-size: 40px; }
+  .chips span { font-size: 13px; padding: 7px 12px; }
+
+  .start-raster { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); align-items: stretch; }
+  .start-raster .kacheln { display: contents; }
+  .start-raster .karte.ziel, .start-raster .kampf-kachel { grid-column: span 2; padding: 20px 24px; }
+  .start-raster .kachel { min-height: 150px; padding: 22px; }
+  .start-raster .kachel .k-titel { font-size: 22px; }
+  .start-raster .haupt-btn { grid-column: 1 / -1; max-width: 520px; justify-self: center; }
+  .start-raster .fuss { grid-column: 1 / -1; }
+
+  .raster { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: stretch; align-content: start; }
+  .raster.drei { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .raster > .label, .raster > .mini, .raster > .klein, .raster > .text-link, .raster > .ziel-schalter, .raster > .karte.grau, .raster > .breit { grid-column: 1 / -1; }
+  .raster > .label { margin-top: 10px; }
+  .raster > .karte.breit { height: auto; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); column-gap: 28px; align-items: start; }
+  .raster > .karte.breit > * { grid-column: 1; }
+  .raster > .karte.breit > details { grid-column: 2; grid-row: 1 / span 6; }
+  .raster > .karte.breit > details summary { display: none; }
+
+  .technik { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); grid-template-areas: "bild info" "bild karten"; column-gap: 28px; align-content: start; }
+  .t-bild { grid-area: bild; } .t-info { grid-area: info; } .t-karten { grid-area: karten; }
+
+  .schmal { max-width: 760px; width: 100%; margin-inline: auto; }
+  .zwei-spalten { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+  .lernkarte { min-height: 380px; }
+  .unten .haupt-btn { max-width: 520px; margin-inline: auto; display: block; }
+
+  .tafel { justify-content: center; }
+  .tafel .seite-p { max-width: 260px; }
+  .tafel .mitte { width: 140px; }
+  .tafel .pk { font-size: 44px; }
+  .tafel .zeit { font-size: 34px; }
+  .k-steuer { max-width: 980px; width: 100%; margin-inline: auto; }
+  .k-gitter { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+@media (min-width: 900px) and (max-height: 760px) { .lernkarte { min-height: 300px; } }
 @media (min-width: 520px) { #app { box-shadow: 0 0 40px rgba(0,0,0,.5); } }
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
 </style>
@@ -326,7 +379,7 @@ SEITEN.start = () => {
       <div class="spruch">Gemeinsam sind wir stark!</div>
       <div class="chips"><span>Kraft</span><span>Ausdauer</span><span>Mut</span><span>Disziplin</span><span>Höflichkeit</span></div>
     </header>
-    <main class="inhalt">
+    <main class="inhalt start-raster">
       <button class="karte ziel" id="ziel"><span class="farbe" style="background:${zFarbe}"></span><span style="flex:1;min-width:0;display:flex;flex-direction:column;gap:2px">
         <span class="label">Dein Ziel</span>
         <span class="t-gross">${z ? esc(z.name + " · " + z.grad) : "Noch kein Ziel gewählt"}</span>
@@ -370,7 +423,7 @@ SEITEN.guertel = () => {
       <span style="flex:1;min-width:0;display:flex;flex-direction:column"><span class="t-gross" style="font-size:17px">${esc(g.name)}</span><span class="klein">${esc(g.grad)} · ${esc(info)}</span></span>
       ${an ? '<span class="tag">Dein Ziel</span>' : ""}<span class="pfeil" aria-hidden="true">›</span></button>`;
   }).join("");
-  setze(`<div class="seite">${kopf("Gürtel", "Wähle den Gurt, auf den du dich vorbereitest.")}<main class="inhalt" style="gap:6px">${zeilen}</main></div>`,
+  setze(`<div class="seite">${kopf("Gürtel", "Wähle den Gurt, auf den du dich vorbereitest.")}<main class="inhalt raster drei" style="gap:6px">${zeilen}</main></div>`,
     r => klick(r, "[data-stufe]", el => zeige("gurt", { stufe: +el.dataset.stufe, tab: 0 })));
 };
 
@@ -411,7 +464,7 @@ SEITEN.gurt = (a) => {
     const neu = D.formen.filter(f => f.stufe === g.stufe), wd = D.formen.filter(f => f.stufe < g.stufe);
     if (!neu.length) inhalt += leer("Zu dieser Prüfung gehört keine neue Poomsae. Die erste Form (Taeguk Il Jang) kommt mit der Prüfung zum 7. Kup.");
     neu.forEach(f => {
-      inhalt += `<div class="karte" style="gap:8px"><div style="display:flex;align-items:center;gap:12px"><div style="flex:1;min-width:0"><div class="t-gross" style="font-size:24px">${esc(f.name)}</div><div class="hangul" style="color:var(--rot);font-weight:700;font-size:16px">${esc(f.hangul)}</div><div class="aus">[${esc(f.aussprache)}]</div></div>${lautBtn(f.hangul, "gross")}</div>
+      inhalt += `<div class="karte breit" style="gap:8px"><div style="display:flex;align-items:center;gap:12px"><div style="flex:1;min-width:0"><div class="t-gross" style="font-size:24px">${esc(f.name)}</div><div class="hangul" style="color:var(--rot);font-weight:700;font-size:16px">${esc(f.hangul)}</div><div class="aus">[${esc(f.aussprache)}]</div></div>${lautBtn(f.hangul, "gross")}</div>
         <b>${esc(f.trigramm)} · ${esc(f.symbol)}</b><span class="t-text" style="font-size:15px;color:var(--ink2)">${esc(f.beschreibung)}</span>
         <details class="ablauf"><summary>Ablaufplan anzeigen</summary><img class="bild" src="img/${f.id.toLowerCase()}.webp" alt="Ablaufplan ${esc(f.name)} mit Schrittfolge" loading="lazy"></details>
         <span class="mini">Die genaue Schrittfolge mit dem Trainer üben.</span></div>`;
@@ -426,9 +479,10 @@ SEITEN.gurt = (a) => {
   setze(`<div class="seite"><header class="kopf auf-dunkel" style="padding-bottom:16px"><div class="zeile"><button class="rund-btn" data-zurueck aria-label="Zurück">←</button>
       <div style="flex:1;min-width:0"><h1 class="h-titel" style="font-size:24px">${esc(g.name)}</h1><div class="klein" style="color:var(--hellgrau)">${esc(info)}</div></div>${gurtMuster(g, 60, 20)}</div>
       <div class="reiter" role="tablist">${reiter.map((n, i) => `<button role="tab" aria-selected="${i === a.tab}" data-tab="${i}">${n}</button>`).join("")}</div></header>
-    <main class="inhalt">${inhalt}</main>
+    <main class="inhalt raster">${inhalt}</main>
     ${g.stufe > 0 ? `<div class="unten"><button class="haupt-btn" id="quiz">Quiz · ${esc(g.name)}</button></div>` : ""}</div>`, r => {
     klick(r, "[data-tab]", el => { a.tab = +el.dataset.tab; malen(); });
+    try { if (matchMedia("(min-width: 900px)").matches) r.querySelectorAll("details.ablauf").forEach(d => d.open = true); } catch (e) { }
     const zs = r.querySelector("#zielSchalter");
     if (zs) zs.onclick = () => { const an = (zielGurt() || {}).stufe === g.stufe; schreiben("ziel", an ? -1 : g.stufe); malen(); };
     klick(r, "[data-technik]", el => zeige("technik", el.dataset.technik));
@@ -442,13 +496,13 @@ SEITEN.technik = (id) => {
   const t = D.techniken.find(x => x.id === id);
   const ab = D.guertel[t.stufe];
   const kartenKopf = (label, cls, vorlese) => `<div style="display:flex;align-items:center;gap:10px"><span class="label ${cls}" style="flex:1">${label}</span><button class="laut" data-de="${esc(vorlese)}" aria-label="Text vorlesen" style="width:40px;height:40px">${LAUT}</button></div>`;
-  setze(`<div class="seite">${kopf(t.kategorie, "ab " + ab.name + " (" + ab.grad + ")", gurtMuster(ab, 40, 14))}<main class="inhalt">
+  setze(`<div class="seite">${kopf(t.kategorie, "ab " + ab.name + " (" + ab.grad + ")", gurtMuster(ab, 40, 14))}<main class="inhalt technik"><div class="t-info">
     <div style="display:flex;align-items:center;gap:12px"><div style="flex:1;min-width:0"><div class="t-gross" style="font-size:30px">${esc(t.koreanisch)}</div><div class="hangul" style="color:var(--rot);font-weight:700;font-size:18px">${esc(t.hangul)}</div><div class="aus" style="font-size:16px">Aussprache: [${esc(t.aussprache)}]</div></div>${lautBtn(t.hangul, "gross")}</div>
-    <div style="font-size:19px;font-weight:700">${esc(t.deutsch)}</div>
-    ${bildOderPlatz(t.id)}
+    <div style="font-size:19px;font-weight:700">${esc(t.deutsch)}</div></div>
+    <div class="t-bild">${bildOderPlatz(t.id)}</div><div class="t-karten">
     <div class="karte">${kartenKopf("Ausführung", "", t.beschreibung)}<span class="t-text">${esc(t.beschreibung)}</span></div>
     <div class="karte rosa">${kartenKopf("Häufiger Fehler", "rot", "Häufiger Fehler: " + t.fehler)}<span class="t-text">${esc(t.fehler)}</span></div>
-    <p class="mini">Nur unter Aufsicht eines Trainers üben.</p></main></div>`, r => klick(r, "[data-de]", el => sprichDeutsch(el.dataset.de)));
+    <p class="mini">Nur unter Aufsicht eines Trainers üben.</p></div></main></div>`, r => klick(r, "[data-de]", el => sprichDeutsch(el.dataset.de)));
 };
 
 SEITEN.meinweg = () => {
@@ -459,7 +513,7 @@ SEITEN.meinweg = () => {
   setze(`<div class="seite"><header class="kopf auf-dunkel"><div class="zeile"><button class="rund-btn" data-zurueck aria-label="Zurück">←</button><h1 class="h-titel">Mein Weg</h1></div>
     <div style="display:flex;align-items:center;gap:14px;margin-top:14px">${gurtMuster(g, 60, 20)}<div><div class="t-gross">${esc(g.name + " · " + g.grad)}</div><div class="klein" style="color:var(--hellgrau)">Den Prüfungstermin sagt dir dein Trainer.</div></div></div>
     <div style="display:flex;margin-top:14px"><span class="klein" style="color:var(--hellgrau);flex:1">Abgehakt</span><b>${p} %</b></div><div class="fortschritt"><i style="width:${p}%"></i></div></header>
-    <main class="inhalt"><div class="label">Prüfungs-Checkliste</div>${punkte}
+    <main class="inhalt raster"><div class="label">Prüfungs-Checkliste</div>${punkte}
     <p class="klein">Häkchen setzt du selbst, wenn du es im Training sicher kannst. Sie werden nur in diesem Browser gespeichert.</p>
     <button class="text-link" id="inhalte">Inhalte für ${esc(g.name)} ansehen ›</button></main>
     ${g.stufe > 0 ? '<div class="unten"><button class="haupt-btn" id="quiz">Quiz für meinen Gurt</button></div>' : ""}</div>`, r => {
@@ -472,7 +526,7 @@ SEITEN.meinweg = () => {
 
 SEITEN.verein = () => {
   const kontakte = [["Telefon", "0203 / 55249447"], ["Mobil", "0157 / 82252773"], ["E-Mail", "vorstandrichter@web.de"]];
-  setze(`<div class="seite">${kopf("Unser Verein", "Leitung: Großmeister Kurt Richter · Mitglied der D.T.O.")}<main class="inhalt">
+  setze(`<div class="seite">${kopf("Unser Verein", "Leitung: Großmeister Kurt Richter · Mitglied der D.T.O.")}<main class="inhalt raster">
     <div class="karte"><span class="label">Trainingszeiten</span><div class="tage"><div><b>MO</b><span>17:00–18:45</span></div><div><b>DI</b><span>17:00–18:45</span></div><div><b>MI</b><span>17:00–18:45</span></div></div>
       <span class="t-text" style="margin-top:8px;font-size:15px">Turnhalle der städtischen Förderschule Duisburg-Nord
 Kopernikusstraße 38, 47167 Duisburg</span>
@@ -510,7 +564,7 @@ SEITEN.kommando = () => {
       <div class="klein ${sicht ? "" : "unsichtbar"}" id="hg"><span class="hangul" style="color:var(--hellgrau)">${esc(w.hangul)}</span> &nbsp;[${esc(w.aussprache)}]</div>
       <div class="klein" id="stand">Reaktion: ${KMD.zeit} · Serie ${KMD.serie}</div>
       ${sicht ? "" : '<button class="text-link" id="zeigen" style="padding:10px">Wort zeigen</button>'}</div>
-    <div class="inhalt" style="flex:none;padding-top:0">${KMD.opts.map((o, i) => `<button class="opt-btn" data-o="${i}">${esc(o.deutsch)}</button>`).join("")}</div></div>`, r => {
+    <div class="inhalt schmal zwei-spalten" style="flex:none;padding-top:0">${KMD.opts.map((o, i) => `<button class="opt-btn" data-o="${i}">${esc(o.deutsch)}</button>`).join("")}</div></div>`, r => {
     const sprechen = () => { KMD.start = performance.now(); sprich(w.hangul); };
     r.querySelector("#ton").onclick = sprechen;
     const zeigen = r.querySelector("#zeigen");
@@ -562,7 +616,7 @@ SEITEN.karten = () => {
   }
   const breite = KA.gesamt ? KA.fertig.length * 100 / KA.gesamt : 0;
   setze(`<div class="seite">${kopf("Lernkarten", z ? "Alles bis " + z.name + " (" + z.grad + ")" : "Alle Gurte", `<b style="color:var(--hellgrau);font-variant-numeric:tabular-nums">${KA.fertig.length} / ${KA.gesamt}</b>`)}
-    <div class="leiste"><i style="width:${breite}%"></i></div><main class="inhalt">${mitte}</main></div>`, r => {
+    <div class="leiste"><i style="width:${breite}%"></i></div><main class="inhalt schmal">${mitte}</main></div>`, r => {
     const k = r.querySelector("#karte");
     if (k) k.onclick = () => { KA.hinten = !KA.hinten; malen(); };
     const n = r.querySelector("#nochmal");
@@ -614,11 +668,11 @@ SEITEN.quiz = () => {
   const f = Q.akt;
   setze(`<div class="seite">${kopf("Quiz · " + g.name, null, gurtMuster(g, 40, 14), false)}
     <div style="background:var(--dunkel);color:var(--hellgrau);font-size:13px;padding:0 20px 12px" id="serie">Richtig in Folge: ${Q.serie}</div>
-    <main class="inhalt">
+    <main class="inhalt schmal">
       <div class="karte frage"><span class="kat">${esc(f.kat)}</span><span class="klein" style="font-size:16px">${esc(f.aufgabe)}</span>
         <span class="wort ${f.wort.length > 30 ? "lang" : ""}">${esc(f.wort)}</span>
         ${f.hangul ? `<span class="aus"><span class="hangul">${esc(f.hangul)}</span> &nbsp;[${esc(f.aus || "")}]</span>${lautBtn(f.hangul)}` : ""}</div>
-      <div class="quiz-opts">${f.opts.map((o, i) => `<button class="opt-btn" data-o="${i}">${esc(o.text)}${o.aus ? `<small>[${esc(o.aus)}]</small>` : ""}</button>`).join("")}</div>
+      <div class="quiz-opts zwei-spalten">${f.opts.map((o, i) => `<button class="opt-btn" data-o="${i}">${esc(o.text)}${o.aus ? `<small>[${esc(o.aus)}]</small>` : ""}</button>`).join("")}</div>
     </main>
     <div class="unten"><button class="haupt-btn" style="background:transparent;color:var(--rot);border:2px solid var(--rot)" data-zurueck>Beenden</button></div></div>`, r => {
     const serie = r.querySelector("#serie");
@@ -975,7 +1029,7 @@ SEITEN.kampf = () => {
 };
 SEITEN.regeln = () => {
   const kmd = [["B008", "Joon-bi", "Bereitmachen"], ["B009", "Shi-jak", "Beginn"], ["E13", "Gallyeo", "Trennen / Unterbrechen"], ["E14", "Gyesok", "Weiterkämpfen"], ["B010", "Geu-man", "Ende der Runde"], ["B041", "Gam-jeom", "Strafpunkt"], ["E11", "Seung", "Sieg – z. B. „Hong seung“"]];
-  setze(`<div class="seite">${kopf("Punkte & Regeln", "Olympischer Zweikampf (Kyorugi)")}<main class="inhalt">
+  setze(`<div class="seite">${kopf("Punkte & Regeln", "Olympischer Zweikampf (Kyorugi)")}<main class="inhalt raster">
     <div class="label">Punkte</div>${TECH.map(tc => eintrag(tc.name, tc.hg, tc.aus, `${tc.de} · ${tc.p} ${punktWort(tc.p)}`)).join("")}
     <div class="karte"><span class="label">Gam-jeom (Strafpunkt)</span><span style="font-size:15px">Jeder Gam-jeom gibt dem Gegner 1 Punkt. Beispiele:</span>
       <ul class="liste"><li>über die Begrenzungslinie treten</li><li>Festhalten, Klammern, Schieben</li><li>Tritte unter die Gürtellinie</li><li>Schlag mit der Hand zum Kopf</li><li>Kampf vermeiden oder verzögern</li><li>Angriff auf einen Gegner, der am Boden liegt</li></ul></div>
